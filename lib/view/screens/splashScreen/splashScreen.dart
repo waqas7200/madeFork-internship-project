@@ -115,47 +115,47 @@ class _SplashScreenState extends State<SplashScreen>
                 child: FadeTransition(
                   opacity: _logoOpacity,
                   child: Image.asset(
-                    'assets/splash_Icon/img.png',
-                    width: 130,
-                    height: 130,
+                    'assets/splash_Icon/Logo.png',
+                    width: 170,
+                    height: 170,
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
-
-              // Text block
-              SlideTransition(
-                position: _textSlide,
-                child: FadeTransition(
-                  opacity: _textOpacity,
-                  child: Column(
-                    children: [
-                      Text(
-                        'MadeFork',
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w700,
-                          color:AppColor.backgroundYellow,
-                          letterSpacing: 1.5,
-                          fontFamily: 'Georgia',
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        'Food Restaurant',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          letterSpacing: 4,
-                          fontFamily: 'Georgia',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // const SizedBox(height: 20),
+              //
+              // // Text block
+              // SlideTransition(
+              //   position: _textSlide,
+              //   child: FadeTransition(
+              //     opacity: _textOpacity,
+              //     child: Column(
+              //       children: [
+              //         Text(
+              //           'MadeFork',
+              //           style: TextStyle(
+              //             fontSize: 36,
+              //             fontWeight: FontWeight.w700,
+              //             color:AppColor.backgroundYellow,
+              //             letterSpacing: 1.5,
+              //             fontFamily: 'Georgia',
+              //           ),
+              //         ),
+              //         const SizedBox(height: 6),
+              //         const Text(
+              //           'Food Restaurant',
+              //           style: TextStyle(
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w400,
+              //             color: Colors.white,
+              //             letterSpacing: 4,
+              //             fontFamily: 'Georgia',
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
               const SizedBox(height: 50),
 

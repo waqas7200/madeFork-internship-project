@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:madeforke_app/view/resturentOwnerside/botomnavigation/bottomnavgation.dart';
+import 'package:madeforke_app/view/screens/bottomNavigationBar/bottomNavgationBar.dart';
 import 'package:madeforke_app/view/screens/splashScreen/splashScreen.dart';
+
+import 'apipraice/apipractice.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +20,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-  home: SplashScreen(),
+  home:
+  MainScreenowneside()
+      //OtpScreen()
+  //SplashScreen(),
     );
   }
 }
