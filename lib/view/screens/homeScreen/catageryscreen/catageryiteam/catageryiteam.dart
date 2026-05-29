@@ -54,6 +54,7 @@
 //  RESPONSIVE CATEGORY MENU
 // ─────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import '../../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../../bottomNavigationBar/bottomNavgationBar.dart';
 import '../catageryscreene.dart';
 

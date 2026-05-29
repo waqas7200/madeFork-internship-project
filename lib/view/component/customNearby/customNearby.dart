@@ -124,42 +124,33 @@
 
 
 import 'package:flutter/material.dart';
+import '../../../model/nerabyresturentModel/nearbyresturntModl.dart';
 import '../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
 import '../../screens/homeScreen/comandationscreen/productdetailscreen/productdetilscreen.dart';
+import '../../screens/homeScreen/nearbyScreen/restaurantDetailScreen/restaurant_detail_screen.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class NearbyCard extends StatelessWidget {
   final Map<String, String> item;
+  final RestaurantModel? restaurant;
 
-  const NearbyCard({super.key, required this.item});
-
-  // Map data ko Product mein convert karo
-  Product _toProduct() {
-    return Product(
-      id: item['name'] ?? 'nearby',
-      name: item['name'] ?? '',
-      store: item['address'] ?? '',
-      price:  '₱85.00',
-      image: item['image'] ?? '',
-      description: 'Located ${item['distance']} away. Rated ${item['rating']} stars.',
-      sizes: ['S', 'M', 'L'],
-      rating: double.tryParse(item['rating'] ?? '0') ?? 0.0,
-      reviews: 0,
-    );
-  }
+  const NearbyCard({super.key, required this.item, this.restaurant});
 
   @override
   Widget build(BuildContext context) {
     final avatarR = context.rW(8).clamp(26.0, 40.0);
 
-    return GestureDetector(                          // ← wrap karo
+    return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetailScreen(product: _toProduct()),
-          ),
-        );
+        if (restaurant != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => RestaurantDetailScreen(restaurant: restaurant!),
+            ),
+          );
+        }
       },
       child: Container(
         padding: EdgeInsets.all(context.rW(2.5)),
@@ -194,7 +185,7 @@ class NearbyCard extends StatelessWidget {
                           item['name']!,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: context.fs(3.5, min: 12, max: 17),
+                            fontSize: APPResponsive.fs(3.5, min: 12, max: 17),
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -209,7 +200,7 @@ class NearbyCard extends StatelessWidget {
                   Text(
                     item['address']!,
                     style: TextStyle(
-                      fontSize: context.fs(2.7, min: 10, max: 13),
+                      fontSize: APPResponsive.fs(2.7, min: 10, max: 13),
                       color: Colors.grey.shade500,
                     ),
                   ),
@@ -223,7 +214,7 @@ class NearbyCard extends StatelessWidget {
                       Text(
                         item['rating']!,
                         style: TextStyle(
-                          fontSize: context.fs(2.8, min: 10, max: 14),
+                          fontSize: APPResponsive.fs(2.8, min: 10, max: 14),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -235,7 +226,7 @@ class NearbyCard extends StatelessWidget {
                       Text(
                         item['distance']!,
                         style: TextStyle(
-                          fontSize: context.fs(2.7, min: 10, max: 13),
+                          fontSize: APPResponsive.fs(2.7, min: 10, max: 13),
                           color: Colors.grey.shade600,
                         ),
                       ),
@@ -257,7 +248,7 @@ class NearbyCard extends StatelessWidget {
                 item['distance']!,
                 style: TextStyle(
                   color: const Color(0xFF00897B),
-                  fontSize: context.fs(2.7, min: 10, max: 13),
+                  fontSize: APPResponsive.fs(2.7, min: 10, max: 13),
                   fontWeight: FontWeight.w700,
                 ),
               ),

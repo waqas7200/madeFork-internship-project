@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../bottomNavigationBar/bottomNavgationBar.dart';
 
 class TrackOrderScreen extends StatelessWidget {
   @override
@@ -10,7 +11,16 @@ class TrackOrderScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+              (route) => false,
+            );
+          },
+        ),
         title: const Text(
           "Track",
           style: TextStyle(color: Colors.black),

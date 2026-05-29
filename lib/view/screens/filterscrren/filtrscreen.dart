@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 import '../bottomNavigationBar/bottomNavgationBar.dart';
 import '../trackingorderscreen/trackingorderscreen.dart';
 
@@ -40,7 +41,7 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
         actions: [
           Icon(Icons.shopping_cart, color: Colors.black, size: context.rH(2.5)),
-          SizedBox(width: context.rW(2)),
+          SizedBox(width: APPResponsive.fs(2)),
           CircleAvatar(radius: context.rH(2)),
           SizedBox(width: context.rW(3)),
         ],

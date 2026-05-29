@@ -2,12 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../component/customTextformfelds/customTextfeilds.dart';
 import '../../../component/ustomButton/customButton.dart';
 import '../../../utils/costsColors/constColors.dart';
 import '../../../utils/responsiveClass/responosiveC;ass.dart';
-import '../../bottomNavigationBar/bottomNavgationBar.dart' hide AppResponsive;
+import '../../bottomNavigationBar/bottomNavgationBar.dart' hide APPResponsive;
 import '../../homeScreen/HomeScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -36,67 +37,95 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
 
-      await Future.delayed(const Duration(seconds: 2));
+      try {
+        final supabase = Supabase.instance.client;
+        await supabase.auth.signUp(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          data: {
+            'username': _usernameController.text.trim(),
+          },
+        );
 
-      setState(() => _isLoading = false);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Account created successfully! Welcome to MadeFork."),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MainScreen()),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Registration Failed: ${e.toString()}"),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    AppResponsive().init(context);
+    APPResponsive().init(context);
 
     return Scaffold(
       backgroundColor:  AppColor.backgroundBlue,
       body: SafeArea(
 
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: AppResponsive.width(7)),
+          padding: EdgeInsets.symmetric(horizontal: APPResponsive.width(7)),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: AppResponsive.height(5)),
+                SizedBox(height: APPResponsive.height(5)),
 
                 // App Logo
                 Center(
                   child: Image.asset(
                     'assets/splash_Icon/Logo.png',
-                    width: AppResponsive.width(35),
-                    height: AppResponsive.width(35),
+                    width: APPResponsive.width(35),
+                    height: APPResponsive.width(35),
                     fit: BoxFit.contain,
                   ),
                 ),
 
 
-                SizedBox(height: AppResponsive.height(4)),
+                SizedBox(height: APPResponsive.height(4)),
 
                 Text(
                   "Create Account",
                   style: TextStyle(
-                    fontSize: AppResponsive.width(6.5),
+                    fontSize: APPResponsive.width(6.5),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(0.8)),
+                SizedBox(height: APPResponsive.height(0.8)),
 
                 Text(
                   "Register to get started",
                   style: TextStyle(
-                    fontSize: AppResponsive.width(3.8),
+                    fontSize: APPResponsive.width(3.8),
                     color: Colors.white,
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(3.5)),
+                SizedBox(height: APPResponsive.height(3.5)),
 
                 // Username Field
                 CustomTextField(
@@ -115,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
 
-                SizedBox(height: AppResponsive.height(2.5)),
+                SizedBox(height: APPResponsive.height(2.5)),
 
                 // Email Field
                 CustomTextField(
@@ -135,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
 
-                SizedBox(height: AppResponsive.height(2.5)),
+                SizedBox(height: APPResponsive.height(2.5)),
 
                 // Password Field
                 CustomTextField(
@@ -155,7 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
 
-                SizedBox(height: AppResponsive.height(4)),
+                SizedBox(height: APPResponsive.height(4)),
 
                 // Register Button
                 CustomButton(
@@ -164,7 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: _onRegister,
                 ),
 
-                SizedBox(height: AppResponsive.height(3)),
+                SizedBox(height: APPResponsive.height(3)),
 
                 // Login Row
                 Center(
@@ -174,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Text(
                         "Already have an account? ",
                         style: TextStyle(
-                          fontSize: AppResponsive.width(3.8),
+                          fontSize: APPResponsive.width(3.8),
                           color: Colors.white
                         ),
                       ),
@@ -185,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Text(
                           "Login",
                           style: TextStyle(
-                            fontSize: AppResponsive.width(3.8),
+                            fontSize: APPResponsive.width(3.8),
                             color: AppColor.backgroundYellow,
                             fontWeight: FontWeight.bold,
                           ),
@@ -195,7 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(3)),
+                SizedBox(height: APPResponsive.height(3)),
               ],
             ),
           ),

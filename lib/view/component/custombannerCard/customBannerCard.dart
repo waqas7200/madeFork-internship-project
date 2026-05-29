@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class BannerCard extends StatelessWidget {
   final String title, sub, discount, imageUrl;
@@ -39,7 +40,7 @@ class BannerCard extends StatelessWidget {
                     sub,
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.8),
-                      fontSize: context.fs(2.8, min: 10, max: 13),
+                      fontSize: APPResponsive.fs(2.8, min: 10, max: 13),
                     ),
                   ),
                   SizedBox(height: context.rH(0.5)),
@@ -47,7 +48,7 @@ class BannerCard extends StatelessWidget {
                     title,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: context.fs(3.5, min: 12, max: 17),
+                      fontSize: APPResponsive.fs(3.5, min: 12, max: 17),
                       fontWeight: FontWeight.w700,
                       height: 1.3,
                     ),
@@ -72,7 +73,7 @@ class BannerCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: context.fs(3.2, min: 11, max: 15),
+                fontSize: APPResponsive.fs(3.2, min: 11, max: 15),
                 fontWeight: FontWeight.w800,
               ),
             ),

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -28,8 +29,9 @@ class AppBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    APPResponsive().init(context);
     final iconSize = context.rW(6).clamp(20.0, 28.0);
-    final labelSize = context.fs(2.5, min: 9, max: 13);
+    final labelSize = APPResponsive.fs(2.5, min: 9, max: 13);
 
     return Container(
       decoration: BoxDecoration(

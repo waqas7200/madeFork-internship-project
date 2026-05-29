@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AppResponsive().init(context);
+    APPResponsive().init(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true, // 👈 body AppBar ke peeche se shuru hogi
@@ -178,7 +178,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               "Skip",
               style: TextStyle(
                 color:AppColor.textBlack,
-                fontSize: AppResponsive.width(4),
+                fontSize: APPResponsive.width(4),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -209,8 +209,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           //app images and name
           Positioned(
-            top: AppResponsive.height(7), // AppBar ke neeche
-            left: AppResponsive.width(14),
+            top: APPResponsive.height(7), // AppBar ke neeche
+            left: APPResponsive.width(14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -223,8 +223,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                   child: Image.asset(
                     'assets/splash_Icon/Logo.png', // apni image path yahan
-                    width: AppResponsive.width(16),
-                    height: AppResponsive.width(20),
+                    width: APPResponsive.width(16),
+                    height: APPResponsive.width(20),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -239,7 +239,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Text(
                       "MadeFork",
                       style: TextStyle(
-                        fontSize: AppResponsive.width(5),
+                        fontSize: APPResponsive.width(5),
                         fontWeight: FontWeight.bold,
                         color: AppColor.backgroundBlue,
                       ),
@@ -247,7 +247,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Text(
                       "Food & Restaurant",
                       style: TextStyle(
-                        fontSize: AppResponsive.width(3),
+                        fontSize: APPResponsive.width(3),
                         color: AppColor.backgroundBlue,
                       ),
                     ),
@@ -287,9 +287,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
           // --- Dots + Button neeche ---
           Positioned(
-            bottom: AppResponsive.height(6),
-            left: AppResponsive.width(10),
-            right: AppResponsive.width(10),
+            bottom: APPResponsive.height(6),
+            left: APPResponsive.width(10),
+            right: APPResponsive.width(10),
             child: Column(
               children: [
                 // Dots
@@ -315,21 +315,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 // Get Started Button
                 SizedBox(
                   width: double.infinity,
-                  height: AppResponsive.height(7),
+                  height: APPResponsive.height(7),
                   child: ElevatedButton(
                     onPressed: _onButtonPressed,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppResponsive.width(4)),
+                        borderRadius: BorderRadius.circular(APPResponsive.width(4)),
                       ),
                       elevation: 0,
                     ),
                     child: Text(
                       _currentPage == _pages.length - 1 ? "Login" : "Get Started",
                       style: TextStyle(
-                        fontSize: AppResponsive.width(4.5),
+                        fontSize: APPResponsive.width(4.5),
                         fontWeight: FontWeight.bold,
                       ),
                     ),

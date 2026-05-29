@@ -20,21 +20,21 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: AppResponsive.height(7),
+      height: APPResponsive.height(7),
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.backgroundYellow,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppResponsive.width(3)),
+            borderRadius: BorderRadius.circular(APPResponsive.width(3)),
           ),
           elevation: 0,
         ),
         child: isLoading
             ? SizedBox(
-          width: AppResponsive.width(5),
-          height: AppResponsive.width(5),
+          width: APPResponsive.width(5),
+          height: APPResponsive.width(5),
           child: const CircularProgressIndicator(
             color: Colors.white,
             strokeWidth: 2.5,
@@ -43,7 +43,7 @@ class CustomButton extends StatelessWidget {
             : Text(
           text,
           style: TextStyle(
-            fontSize: AppResponsive.width(4.5),
+            fontSize: APPResponsive.width(4.5),
             fontWeight: FontWeight.bold,
           ),
         ),

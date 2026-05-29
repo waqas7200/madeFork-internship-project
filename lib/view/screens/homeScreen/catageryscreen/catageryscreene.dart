@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../component/customCircleAvator/customCircleavators.dart';
 import '../../../component/secinHeader/sectionHeader.dart';
 import '../../../utils/costsColors/constColors.dart';
+import '../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../bottomNavigationBar/bottomNavgationBar.dart';
 import '../comandationscreen/recomandatioScren.dart';
 import '../nearbyScreen/nearbyList.dart';
@@ -180,7 +181,7 @@ class _CatagerytScreenState extends State<CatagerytScreen> {
           Text(
             'Near by Merchant',
             style: TextStyle(
-              fontSize: context.fs(4.5),
+              fontSize: APPResponsive.fs(4.5),
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
@@ -246,10 +247,10 @@ class catageryard extends StatelessWidget {
                   children: [
                     Text(
                       'StarBuckz',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: context.fs(4)),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: APPResponsive.fs(4)),
                     ),
-                    Text('Alaminos, Pang', style: TextStyle(color: Colors.grey, fontSize: context.fs(3))),
-                    Text('18.00 km', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: context.fs(3))),
+                    Text('Alaminos, Pang', style: TextStyle(color: Colors.grey, fontSize: APPResponsive.fs(3))),
+                    Text('18.00 km', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: APPResponsive.fs(3))),
 
                   ],
                 ),
@@ -263,7 +264,7 @@ class catageryard extends StatelessWidget {
                     child: const Icon(Icons.bookmark, size: 18, color: Colors.orange),
                   ),
                   SizedBox(height: context.rW(3)),
-                  Text('price :200', style: TextStyle(fontSize: context.fs(2.5), color: Colors.orange)),
+                  Text('price :200', style: TextStyle(fontSize: APPResponsive.fs(2.5), color: Colors.orange)),
                 ],
               )
             ],

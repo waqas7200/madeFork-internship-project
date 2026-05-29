@@ -5,6 +5,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../bottomNavigationBar/bottomNavgationBar.dart';
 
 class AppHeader extends StatelessWidget {
@@ -28,7 +29,7 @@ class AppHeader extends StatelessWidget {
                 'Explore the taste',
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.85),
-                  fontSize: context.fs(3.2, min: 11, max: 15),
+                  fontSize: APPResponsive.fs(3.2, min: 11, max: 15),
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -36,7 +37,7 @@ class AppHeader extends StatelessWidget {
                 'of Asian Food',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: context.fs(4.5, min: 15, max: 22),
+                  fontSize: APPResponsive.fs(4.5, min: 15, max: 22),
                   fontWeight: FontWeight.w700,
                 ),
               ),

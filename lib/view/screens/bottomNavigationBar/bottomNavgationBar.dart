@@ -833,24 +833,9 @@ import '../userprofilescreen+edit/userprofilescreen+edit.dart';
 
 
 
-// ─────────────────────────────────────────────
-//  RESPONSIVE HELPER EXTENSION
-//  Usage: context.rW(5) → 5% of screen width
-//         context.rH(3) → 3% of screen height
-//         context.fs(4) → font size clamped
-// ─────────────────────────────────────────────
-extension AppResponsive on BuildContext {
-  double get _w => MediaQuery.of(this).size.width;
-  double get _h => MediaQuery.of(this).size.height;
 
-  double rW(double pct) => _w * pct / 100;
-  double rH(double pct) => _h * pct / 100;
-  double fs(double pct, {double min = 10, double max = 30}) =>
-      (_w * pct / 100).clamp(min, max);
-}
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
-//  MAIN SCREEN  (Bottom Nav wrapper)
-// ─────────────────────────────────────────────
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -870,6 +855,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    APPResponsive().init(context);
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: AppBottomNavBar(

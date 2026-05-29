@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../model/oderhistory/ordderhistory.dart';
 import '../../component/customCircleAvator/customCircleavators.dart';
 import '../../utils/costsColors/constColors.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 import '../bottomNavigationBar/bottomNavgationBar.dart';
 import '../homeScreen/myorderScreenCart/myOrderCart.dart';
 import '../homeScreen/searchbar/sarhbar.dart';
@@ -108,7 +109,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   'Explore the taste',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.85),
-                    fontSize: context.fs(3.2, min: 11, max: 15),
+                    fontSize: APPResponsive.fs(3.2, min: 11, max: 15),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -116,7 +117,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   'of Asian Food',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: context.fs(4.5, min: 15, max: 22),
+                    fontSize: APPResponsive.fs(4.5, min: 15, max: 22),
                     fontWeight: FontWeight.w700,
                   ),
                 ),

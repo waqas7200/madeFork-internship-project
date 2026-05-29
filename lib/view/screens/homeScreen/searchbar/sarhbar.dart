@@ -4,6 +4,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../bottomNavigationBar/bottomNavgationBar.dart';
 
 class SearchBarWidget extends StatelessWidget {
@@ -20,12 +21,12 @@ class SearchBarWidget extends StatelessWidget {
         context.rH(2),
       ),
       child: TextField(
-        style: TextStyle(fontSize: context.fs(3.5, min: 12, max: 16)),
+        style: TextStyle(fontSize: APPResponsive.fs(3.5, min: 12, max: 16)),
         decoration: InputDecoration(
           hintText: 'Search food, restaurants...',
           hintStyle: TextStyle(
             color: Colors.grey,
-            fontSize: context.fs(3.3, min: 11, max: 15),
+            fontSize: APPResponsive.fs(3.3, min: 11, max: 15),
           ),
           prefixIcon: Icon(Icons.search, color: Colors.grey, size: context.rW(5).clamp(18, 24)),
           suffixIcon: IconButton(

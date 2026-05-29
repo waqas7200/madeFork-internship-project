@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -19,14 +20,14 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.rW(4)),
+      padding: EdgeInsets.symmetric(horizontal: context.rW(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
             style: TextStyle(
-              fontSize: context.fs(4, min: 14, max: 20),
+              fontSize:  APPResponsive.width(3.5),
               fontWeight: FontWeight.w700,
               color: Colors.black87,
             ),
@@ -43,7 +44,7 @@ class SectionHeader extends StatelessWidget {
               child: Text(
                 actionLabel,
                 style: TextStyle(
-                  fontSize: context.fs(3.2, min: 11, max: 15),
+                  fontSize:   APPResponsive.width(3.5),
                   color: const Color(0xFF00897B),
                   fontWeight: FontWeight.w600,
                 ),

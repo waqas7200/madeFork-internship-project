@@ -4,6 +4,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class CategoryItem extends StatelessWidget {
   final IconData icon;
@@ -29,16 +30,16 @@ class CategoryItem extends StatelessWidget {
           height: itemSize,
           decoration: BoxDecoration(
             color: color.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(context.rW(4)),
+            borderRadius: BorderRadius.circular(4),
             border: Border.all(color: color.withOpacity(0.3)),
           ),
           child: Icon(icon, color: color, size: itemSize * 0.5),
         ),
-        SizedBox(height: context.rH(0.6)),
+        SizedBox(height:10),
         Text(
           label,
           style: TextStyle(
-            fontSize: context.fs(2.8, min: 10, max: 14),
+            fontSize: APPResponsive.fs(2.8, min: 10, max: 14),
             fontWeight: FontWeight.w500,
           ),
         ),

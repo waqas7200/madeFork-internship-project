@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:madeforke_app/view/utils/costsColors/constColors.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../component/customTextformfelds/customTextfeilds.dart';
 import '../../../component/ustomButton/customButton.dart';
 import '../../../utils/responsiveClass/responosiveC;ass.dart';
-import '../../bottomNavigationBar/bottomNavgationBar.dart' hide AppResponsive;
+import '../../bottomNavigationBar/bottomNavgationBar.dart' hide APPResponsive;
 import '../../homeScreen/HomeScreen.dart';
 import '../forgeScreen/forgetpasword_screen.dart';
 import '../registerScreen/reisterScreen.dart';
@@ -40,41 +41,64 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
 
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      try {
+        final supabase = Supabase.instance.client;
+        await supabase.auth.signInWithPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
 
-      setState(() => _isLoading = false);
-
-      // Home screen par jao
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Logged in successfully! Welcome back."),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MainScreen()),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Login Failed: ${e.toString()}"),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    AppResponsive().init(context);
+    APPResponsive().init(context);
 
     return Scaffold(
       backgroundColor: AppColor.backgroundBlue,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: AppResponsive.width(7)),
+          padding: EdgeInsets.symmetric(horizontal: APPResponsive.width(7)),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: AppResponsive.height(5)),
+                SizedBox(height: APPResponsive.height(5)),
 
                 // App Logo
                 Center(
                   child: Image.asset(
                     'assets/splash_Icon/Logo.png',
-                    width: AppResponsive.width(35),
-                    height: AppResponsive.width(35),
+                    width: APPResponsive.width(35),
+                    height: APPResponsive.width(35),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -83,29 +107,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-                SizedBox(height: AppResponsive.height(4)),
+                SizedBox(height: APPResponsive.height(4)),
 
                 // Welcome Text
                 Text(
                   "Welcome Back!",
                   style: TextStyle(
-                    fontSize: AppResponsive.width(6.5),
+                    fontSize: APPResponsive.width(6.5),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(0.8)),
+                SizedBox(height: APPResponsive.height(0.8)),
 
                 Text(
                   "Login to your account to continue",
                   style: TextStyle(
-                    fontSize: AppResponsive.width(3.8),
+                    fontSize: APPResponsive.width(3.8),
                     color: Colors.white,
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(3.5)),
+                SizedBox(height: APPResponsive.height(3.5)),
 
                 // Email Field
                 CustomTextField(
@@ -125,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
 
-                SizedBox(height: AppResponsive.height(2.5)),
+                SizedBox(height: APPResponsive.height(2.5)),
 
                 // Password Field
                 CustomTextField(
@@ -145,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
 
-                SizedBox(height: AppResponsive.height(1.5)),
+                SizedBox(height: APPResponsive.height(1.5)),
 
                 // Forgot Password
                 Align(
@@ -161,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       "Forgot Password?",
                       style: TextStyle(
-                        fontSize: AppResponsive.width(3.8),
+                        fontSize: APPResponsive.width(3.8),
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       ),
@@ -169,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(4)),
+                SizedBox(height: APPResponsive.height(4)),
 
                 // Login Button
                 CustomButton(
@@ -178,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: _onLogin,
                 ),
 
-                SizedBox(height: AppResponsive.height(3)),
+                SizedBox(height: APPResponsive.height(3)),
 
                 // Register Row
                 Center(
@@ -188,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "Don't have an account? ",
                         style: TextStyle(
-                          fontSize: AppResponsive.width(3.8),
+                          fontSize: APPResponsive.width(3.8),
                           color: Colors.white,
                         ),
                       ),
@@ -203,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Register Now",
                           style: TextStyle(
-                            fontSize: AppResponsive.width(3.8),
+                            fontSize: APPResponsive.width(3.8),
                             color: AppColor.backgroundYellow,
                             fontWeight: FontWeight.bold,
                           ),
@@ -213,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(3)),
+                SizedBox(height: APPResponsive.height(3)),
               ],
             ),
           ),

@@ -122,8 +122,9 @@
 //  RECOMMENDATION LIST - GRID VIEW
 // ─────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
+import 'package:madeforke_app/model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../../component/customRecomandation/customRcomandaion.dart';
+import '../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../bottomNavigationBar/bottomNavgationBar.dart';
 
 class RecommendationList extends StatelessWidget {

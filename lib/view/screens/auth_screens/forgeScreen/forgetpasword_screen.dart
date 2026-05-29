@@ -39,13 +39,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           child: Icon(
             CupertinoIcons.back,
             color: Colors.white,
-            size: AppResponsive.width(6.5),
+            size: APPResponsive.width(6.5),
           ),
         ),
         title: Text(
           'Forget Password',
           style: TextStyle(
-            fontSize: AppResponsive.width(4.8),
+            fontSize: APPResponsive.width(4.8),
             fontWeight: FontWeight.w700,
             color: Colors.white,
           ),
@@ -55,61 +55,61 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: AppResponsive.width(6),
+            horizontal: APPResponsive.width(6),
           ),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: AppResponsive.height(6)),
+                SizedBox(height: APPResponsive.height(6)),
 
                 // Lock Icon
                 Container(
-                  width: AppResponsive.width(22),
-                  height: AppResponsive.width(22),
+                  width: APPResponsive.width(22),
+                  height: APPResponsive.width(22),
                   decoration: BoxDecoration(
                     color: AppColor.backgroundBlue.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     CupertinoIcons.lock_shield,
-                    size: AppResponsive.width(22),
+                    size: APPResponsive.width(22),
                     color: AppColor.backgroundYellow,
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(5)),
+                SizedBox(height: APPResponsive.height(5)),
 
                 // Forget Password heading
                 Text(
                   'Forget Password?',
                   style: TextStyle(
-                    fontSize: AppResponsive.width(6),
+                    fontSize: APPResponsive.width(6),
                     fontWeight: FontWeight.w800,
                     color:  Colors.white,
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(1.5)),
+                SizedBox(height: APPResponsive.height(1.5)),
 
                 // Description text
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: AppResponsive.width(4),
+                    horizontal: APPResponsive.width(4),
                   ),
                   child: Text(
                     'Don\'t worry! It happens. Please enter the email address linked with your account.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: AppResponsive.width(3.6),
+                      fontSize: APPResponsive.width(3.6),
                       color: Colors.grey.shade500,
                       height: 1.5,
                     ),
                   ),
                 ),
 
-                SizedBox(height: AppResponsive.height(4)),
+                SizedBox(height: APPResponsive.height(4)),
 
                 // Email TextField
                 CustomTextField(
@@ -128,7 +128,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   },
                 ),
 
-                SizedBox(height: AppResponsive.height(4)),
+                SizedBox(height: APPResponsive.height(4)),
 
                 // Send OTP Button
                 CustomButton(
@@ -148,7 +148,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   isLoading: _isLoading ,
                 ),
 
-                SizedBox(height: AppResponsive.height(3)),
+                SizedBox(height: APPResponsive.height(3)),
               ],
             ),
           ),

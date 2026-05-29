@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../component/custombannerCard/customBannerCard.dart';
+import '../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../bottomNavigationBar/bottomNavgationBar.dart';
 
 class BannerSlider extends StatefulWidget {

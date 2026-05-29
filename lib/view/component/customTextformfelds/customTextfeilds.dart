@@ -49,19 +49,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
             hintText: widget.hint,
             hintStyle: TextStyle(
               color: Colors.grey.shade400,
-              fontSize: AppResponsive.width(3.8),
+              fontSize: APPResponsive.width(3.8),
             ),
             prefixIcon: Icon(
               widget.prefixIcon,
               color: AppColor.backgroundBlue,
-              size: AppResponsive.width(5.5),
+              size: APPResponsive.width(5.5),
             ),
             suffixIcon: widget.isPassword
                 ? IconButton(
               icon: Icon(
                 _obscure ? Icons.visibility_off : Icons.visibility,
                 color: Colors.grey.shade400,
-                size: AppResponsive.width(5),
+                size: APPResponsive.width(5),
               ),
               onPressed: () {
                 setState(() {
@@ -73,11 +73,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
             filled: true,
             fillColor: Colors.grey.shade100,
             contentPadding: EdgeInsets.symmetric(
-              horizontal: AppResponsive.width(4),
-              vertical: AppResponsive.height(2),
+              horizontal: APPResponsive.width(4),
+              vertical: APPResponsive.height(2),
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppResponsive.width(3)),
+              borderRadius: BorderRadius.circular(APPResponsive.width(3)),
               borderSide: BorderSide.none,
             ),
             // enabledBorder: OutlineInputBorder(
@@ -85,15 +85,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
             //   borderSide: BorderSide(color: Colors.grey.shade200, width: 1),
             // ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppResponsive.width(3)),
+              borderRadius: BorderRadius.circular(APPResponsive.width(3)),
               borderSide: BorderSide(color: AppColor.backgroundBlue, width: 1.5),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppResponsive.width(3)),
+              borderRadius: BorderRadius.circular(APPResponsive.width(3)),
               borderSide: const BorderSide(color: Colors.red, width: 1),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(AppResponsive.width(3)),
+              borderRadius: BorderRadius.circular(APPResponsive.width(3)),
               borderSide: const BorderSide(color: Colors.red, width: 1.5),
             ),
           ),
@@ -101,4 +101,5 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ],
     );
   }
+
 }

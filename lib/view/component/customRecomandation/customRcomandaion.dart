@@ -115,9 +115,10 @@
 //  RECOMMENDATION CARD WITH HERO ANIMATION
 // ─────────────────────────────────────────────
 import 'package:flutter/material.dart';
-import '../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
+import 'package:madeforke_app/model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
 import '../../screens/homeScreen/comandationscreen/productdetailscreen/productdetilscreen.dart';
+import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 
 class RecommendationCard extends StatelessWidget {
@@ -196,7 +197,7 @@ class RecommendationCard extends StatelessWidget {
                     item.name,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: context.fs(3.2, min: 11, max: 15),
+                      fontSize: APPResponsive.fs(3.2, min: 11, max: 15),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -204,7 +205,7 @@ class RecommendationCard extends StatelessWidget {
                   Text(
                     item.store,
                     style: TextStyle(
-                      fontSize: context.fs(2.7, min: 10, max: 13),
+                      fontSize: APPResponsive.fs(2.7, min: 10, max: 13),
                       color: Colors.grey.shade500,
                     ),
                   ),
@@ -217,7 +218,7 @@ class RecommendationCard extends StatelessWidget {
                         style: TextStyle(
                           color: const Color(0xFFE53935),
                           fontWeight: FontWeight.w700,
-                          fontSize: context.fs(3.2, min: 11, max: 15),
+                          fontSize: APPResponsive.fs(3.2, min: 11, max: 15),
                         ),
                       ),
                       Row(
@@ -230,7 +231,7 @@ class RecommendationCard extends StatelessWidget {
                           Text(
                             item.rating.toString(),
                             style: TextStyle(
-                              fontSize: context.fs(2.5, min: 9, max: 12),
+                              fontSize: APPResponsive.fs(2.5, min: 9, max: 12),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -266,7 +267,7 @@ class RecommendationCard extends StatelessWidget {
                   label: Text(
                     'Add to cart',
                     style:
-                    TextStyle(fontSize: context.fs(2.7, min: 10, max: 13)),
+                    TextStyle(fontSize: APPResponsive.fs(2.7, min: 10, max: 13)),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF00897B),

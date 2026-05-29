@@ -54,13 +54,13 @@ class _OtpScreenState extends State<OtpScreen> {
           child: Icon(
             CupertinoIcons.back,
             color:  Colors.white,
-            size: AppResponsive.width(6.5),
+            size: APPResponsive.width(6.5),
           ),
         ),
         title: Text(
           'OTP Verification',
           style: TextStyle(
-            fontSize: AppResponsive.width(4.8),
+            fontSize: APPResponsive.width(4.8),
             fontWeight: FontWeight.w700,
             color: Colors.white,
           ),
@@ -70,52 +70,52 @@ class _OtpScreenState extends State<OtpScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: AppResponsive.width(6),
+            horizontal: APPResponsive.width(6),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: AppResponsive.height(6)),
+              SizedBox(height: APPResponsive.height(6)),
 
               // Shield icon
               Container(
-                width: AppResponsive.width(22),
-                height: AppResponsive.width(22),
+                width: APPResponsive.width(22),
+                height: APPResponsive.width(22),
                 decoration: BoxDecoration(
                   color: AppColor.backgroundYellow.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   CupertinoIcons.checkmark_shield,
-                  size: AppResponsive.width(10),
+                  size: APPResponsive.width(10),
                   color: AppColor.backgroundYellow,
                 ),
               ),
 
-              SizedBox(height: AppResponsive.height(3)),
+              SizedBox(height: APPResponsive.height(3)),
 
               // Heading
               Text(
                 'Enter Your OTP Here',
                 style: TextStyle(
-                  fontSize: AppResponsive.width(5.5),
+                  fontSize: APPResponsive.width(5.5),
                   fontWeight: FontWeight.w800,
                   color:  Colors.white,
                 ),
               ),
 
-              SizedBox(height: AppResponsive.height(1.5)),
+              SizedBox(height: APPResponsive.height(1.5)),
 
               // Sub text
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: AppResponsive.width(4),
+                  horizontal: APPResponsive.width(4),
                 ),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: TextStyle(
-                      fontSize: AppResponsive.width(3.5),
+                      fontSize: APPResponsive.width(3.5),
                       color: Colors.grey.shade500,
                       height: 1.5,
                     ),
@@ -133,22 +133,22 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
 
-              SizedBox(height: AppResponsive.height(5)),
+              SizedBox(height: APPResponsive.height(5)),
 
               // OTP Boxes Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(4, (index) {
                   return Container(
-                    width: AppResponsive.width(14),
-                    height: AppResponsive.width(14),
+                    width: APPResponsive.width(14),
+                    height: APPResponsive.width(14),
                     margin: EdgeInsets.symmetric(
-                      horizontal: AppResponsive.width(2),
+                      horizontal: APPResponsive.width(2),
                     ),
                     decoration: BoxDecoration(
                       color: Colors.grey,
                       borderRadius:
-                      BorderRadius.circular(AppResponsive.width(3)),
+                      BorderRadius.circular(APPResponsive.width(3)),
                       border: Border.all(
                         color: _focusNodes[index].hasFocus
                             ? AppColor.backgroundYellow
@@ -166,7 +166,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                       ],
                       style: TextStyle(
-                        fontSize: AppResponsive.width(5.5),
+                        fontSize: APPResponsive.width(5.5),
                         fontWeight: FontWeight.w700,
                         color: Colors.black87,
                       ),
@@ -181,7 +181,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 }),
               ),
 
-              SizedBox(height: AppResponsive.height(5)),
+              SizedBox(height: APPResponsive.height(5)),
 
               // Send / Verify Button
               CustomButton(
@@ -207,7 +207,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 isLoading: _isLoading,
               ),
 
-              SizedBox(height: AppResponsive.height(3)),
+              SizedBox(height: APPResponsive.height(3)),
 
               // Resend OTP text
               Row(
@@ -216,7 +216,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   Text(
                     "Don't receive the OTP? ",
                     style: TextStyle(
-                      fontSize: AppResponsive.width(3.6),
+                      fontSize: APPResponsive.width(3.6),
                       color: Colors.grey.shade500,
                     ),
                   ),
@@ -234,7 +234,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     child: Text(
                       'Resend',
                       style: TextStyle(
-                        fontSize: AppResponsive.width(3.6),
+                        fontSize: APPResponsive.width(3.6),
                         color: AppColor.backgroundYellow,
                         fontWeight: FontWeight.w700,
                       ),
@@ -243,7 +243,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 ],
               ),
 
-              SizedBox(height: AppResponsive.height(3)),
+              SizedBox(height: APPResponsive.height(3)),
             ],
           ),
         ),
