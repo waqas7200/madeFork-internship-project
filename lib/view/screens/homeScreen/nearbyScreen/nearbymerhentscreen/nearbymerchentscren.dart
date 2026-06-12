@@ -8,6 +8,7 @@ import '../../../bottomNavigationBar/bottomNavgationBar.dart';
 import '../../../../../controller/nearby_controller.dart';
 import '../../../../../model/nerabyresturentModel/nearbyresturntModl.dart';
 import '../../../../component/custom_loading_widget.dart';
+import '../../../../../controller/auth_Cntroller/auth_Controller.dart';
 
 class NearByMerchantScreen extends StatefulWidget {
   const NearByMerchantScreen({super.key});
