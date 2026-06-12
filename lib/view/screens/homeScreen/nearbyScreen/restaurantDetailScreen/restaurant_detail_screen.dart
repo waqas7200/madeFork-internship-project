@@ -1,11 +1,14 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../../model/nerabyresturentModel/nearbyresturntModl.dart';
 import '../../../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../../../../model/restaurantProductModel/restaurant_product_model.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../../../utils/costsColors/constColors.dart';
 import '../../../../utils/responsiveClass/responosiveC;ass.dart';
-import '../../comandationscreen/productdetailscreen/productdetilscreen.dart';
+import '../../../../component/custom_loading_widget.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
   final RestaurantModel restaurant;
@@ -39,9 +42,32 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           .select('*, product_images(image_url)')
           .eq('restaurant_id', widget.restaurant.id);
 
+      final random = Random();
       final List<RestaurantProductModel> fetched = [];
       for (var item in response) {
-        fetched.add(RestaurantProductModel.fromJson(item));
+        final parsedItem = RestaurantProductModel.fromJson(item);
+        final displayRating = parsedItem.rating > 0
+            ? parsedItem.rating
+            : double.parse(
+                (3.5 + random.nextDouble() * 1.5).toStringAsFixed(1),
+              );
+
+        fetched.add(
+          RestaurantProductModel(
+            id: parsedItem.id,
+            restaurantId: parsedItem.restaurantId,
+            categoryId: parsedItem.categoryId,
+            title: parsedItem.title,
+            description: parsedItem.description,
+            price: parsedItem.price,
+            availability: parsedItem.availability,
+            isSale: parsedItem.isSale,
+            discount: parsedItem.discount,
+            total: parsedItem.total,
+            rating: displayRating,
+            image: parsedItem.image,
+          ),
+        );
       }
 
       setState(() {
@@ -71,14 +97,18 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             pinned: true,
             backgroundColor: AppColor.backgroundBlue,
             leading: GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: () => Get.back(),
               child: Container(
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.9),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87, size: 20),
+                child: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.black87,
+                  size: 20,
+                ),
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(
@@ -90,7 +120,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
                       color: AppColor.backgroundBlue,
-                      child: const Icon(Icons.restaurant, size: 60, color: Colors.white70),
+                      child: const Icon(
+                        Icons.restaurant,
+                        size: 60,
+                        color: Colors.white70,
+                      ),
                     ),
                   ),
                   // Gradient overlay for readability
@@ -125,7 +159,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            const Icon(Icons.person_outline, color: Colors.white70, size: 16),
+                            const Icon(
+                              Icons.person_outline,
+                              color: Colors.white70,
+                              size: 16,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               restaurant.ownerName,
@@ -166,7 +204,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   // Location Row
                   Row(
                     children: [
-                      Icon(Icons.location_on_outlined, color: Colors.red.shade400, size: 20),
+                      Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.red.shade400,
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -186,7 +228,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     children: [
                       // Distance chip
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.blue.shade50,
                           borderRadius: BorderRadius.circular(20),
@@ -194,7 +239,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.near_me, color: Colors.blue.shade700, size: 14),
+                            Icon(
+                              Icons.near_me,
+                              color: Colors.blue.shade700,
+                              size: 14,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               restaurant.distanceStr,
@@ -211,7 +260,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
 
                       // Rating chip
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.amber.shade50,
                           borderRadius: BorderRadius.circular(20),
@@ -219,7 +271,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.star, color: Colors.amber.shade700, size: 14),
+                            Icon(
+                              Icons.star,
+                              color: Colors.amber.shade700,
+                              size: 14,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               restaurant.rating,
@@ -271,7 +327,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   const SizedBox(width: 8),
                   if (!isLoading)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColor.backgroundBlue.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
@@ -295,14 +354,17 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           // ─── PRODUCTS LIST ───
           if (isLoading)
             const SliverFillRemaining(
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(child: CustomLoadingWidget()),
             )
           else if (errorMessage.isNotEmpty)
             SliverFillRemaining(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text(errorMessage, style: const TextStyle(color: Colors.red)),
+                  child: Text(
+                    errorMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                 ),
               ),
             )
@@ -312,11 +374,18 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.restaurant_menu, size: 60, color: Colors.grey.shade300),
+                    Icon(
+                      Icons.restaurant_menu,
+                      size: 60,
+                      color: Colors.grey.shade300,
+                    ),
                     const SizedBox(height: 12),
                     Text(
                       'No products available yet.',
-                      style: TextStyle(color: Colors.grey.shade500, fontSize: APPResponsive.fs(3.5)),
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: APPResponsive.fs(3.5),
+                      ),
                     ),
                   ],
                 ),
@@ -326,17 +395,14 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: context.rW(4)),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final product = products[index];
-                    return _ProductCard(
-                      product: product,
-                      storeName: widget.restaurant.name,
-                      restaurantId: widget.restaurant.id,
-                    );
-                  },
-                  childCount: products.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final product = products[index];
+                  return _ProductCard(
+                    product: product,
+                    storeName: widget.restaurant.name,
+                    restaurantId: widget.restaurant.id,
+                  );
+                }, childCount: products.length),
               ),
             ),
 
@@ -363,7 +429,6 @@ class _ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-
       onTap: () {
         final productDetail = Product(
           id: product.id,
@@ -375,168 +440,181 @@ class _ProductCard extends StatelessWidget {
           description: product.description,
           sizes: [],
           rating: product.rating,
-          reviews: 0,
+          reviews: 50 + Random().nextInt(400),
         );
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetailScreen(product: productDetail),
-          ),
-        );
+        Get.toNamed(AppRoutes.productDetail, arguments: productDetail);
       },
       child: Container(
-      margin: EdgeInsets.only(bottom: context.rH(1.5)),
-      padding: EdgeInsets.all(context.rW(3.5)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Product info (left side)
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                Text(
-                  product.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: APPResponsive.fs(3.5),
-                    color: Colors.black87,
-                  ),
-                ),
-                SizedBox(height: context.rH(0.5)),
-
-                // Description
-                if (product.description.isNotEmpty)
+        margin: EdgeInsets.only(bottom: context.rH(1.5)),
+        padding: EdgeInsets.all(context.rW(3.5)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Product info (left side)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
                   Text(
-                    product.description,
+                    product.title,
                     style: TextStyle(
-                      fontSize: APPResponsive.fs(2.8),
-                      color: Colors.grey.shade600,
-                      height: 1.4,
+                      fontWeight: FontWeight.w700,
+                      fontSize: APPResponsive.fs(3.5),
+                      color: Colors.black87,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                SizedBox(height: context.rH(1)),
+                  SizedBox(height: context.rH(0.5)),
 
-                // Price row
-                Row(
-                  children: [
-                    // Final price
+                  // Description
+                  if (product.description.isNotEmpty)
                     Text(
-                      '₱${product.total.toStringAsFixed(2)}',
+                      product.description,
                       style: TextStyle(
-                        fontSize: APPResponsive.fs(3.5),
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.backgroundBlue,
+                        fontSize: APPResponsive.fs(2.8),
+                        color: Colors.grey.shade600,
+                        height: 1.4,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
+                  SizedBox(height: context.rH(1)),
 
-                    // Original price (show if on sale)
-                    if (product.isSale && product.discount > 0) ...[
-                      const SizedBox(width: 8),
+                  // Price row
+                  Row(
+                    children: [
+                      // Final price
                       Text(
-                        '₱${product.price.toStringAsFixed(2)}',
+                        '₱${product.total.toStringAsFixed(2)}',
                         style: TextStyle(
-                          fontSize: APPResponsive.fs(2.8),
-                          color: Colors.grey,
-                          decoration: TextDecoration.lineThrough,
+                          fontSize: APPResponsive.fs(3.5),
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.backgroundBlue,
                         ),
                       ),
-                      const SizedBox(width: 6),
+
+                      // Original price (show if on sale)
+                      if (product.isSale && product.discount > 0) ...[
+                        const SizedBox(width: 8),
+                        Text(
+                          '₱${product.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: APPResponsive.fs(2.8),
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade50,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            '-₱${product.discount.toStringAsFixed(0)}',
+                            style: TextStyle(
+                              fontSize: APPResponsive.fs(2.3),
+                              color: Colors.red.shade700,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  SizedBox(height: context.rH(0.8)),
+
+                  // Rating & availability
+                  Row(
+                    children: [
+                      if (product.rating > 0) ...[
+                        Icon(Icons.star, color: Colors.amber, size: 14),
+                        const SizedBox(width: 2),
+                        Text(
+                          product.rating.toStringAsFixed(1),
+                          style: TextStyle(
+                            fontSize: APPResponsive.fs(2.5),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                      ],
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.red.shade50,
-                          borderRadius: BorderRadius.circular(6),
+                          color: product.availability
+                              ? Colors.green.shade50
+                              : Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          '-₱${product.discount.toStringAsFixed(0)}',
+                          product.availability ? 'Available' : 'Unavailable',
                           style: TextStyle(
                             fontSize: APPResponsive.fs(2.3),
-                            color: Colors.red.shade700,
+                            color: product.availability
+                                ? Colors.green.shade700
+                                : Colors.red.shade700,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ],
-                  ],
-                ),
-                SizedBox(height: context.rH(0.8)),
+                  ),
+                ],
+              ),
+            ),
 
-                // Rating & availability
-                Row(
-                  children: [
-                    if (product.rating > 0) ...[
-                      Icon(Icons.star, color: Colors.amber, size: 14),
-                      const SizedBox(width: 2),
-                      Text(
-                        product.rating.toStringAsFixed(1),
-                        style: TextStyle(
-                          fontSize: APPResponsive.fs(2.5),
-                          fontWeight: FontWeight.w600,
+            // Product Image (Right side)
+            SizedBox(width: context.rW(3)),
+            Container(
+              width: context.rW(22),
+              height: context.rW(22),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: product.image.isNotEmpty
+                    ? Image.network(
+                        product.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Icon(
+                          Icons.fastfood,
+                          color: Colors.grey.shade400,
+                          size: context.rW(8),
                         ),
+                      )
+                    : Icon(
+                        Icons.fastfood,
+                        color: Colors.grey.shade400,
+                        size: context.rW(8),
                       ),
-                      const SizedBox(width: 10),
-                    ],
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: product.availability ? Colors.green.shade50 : Colors.red.shade50,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        product.availability ? 'Available' : 'Unavailable',
-                        style: TextStyle(
-                          fontSize: APPResponsive.fs(2.3),
-                          color: product.availability ? Colors.green.shade700 : Colors.red.shade700,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
-          
-          // Product Image (Right side)
-          SizedBox(width: context.rW(3)),
-          Container(
-            width: context.rW(22),
-            height: context.rW(22),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: product.image.isNotEmpty
-                  ? Image.network(
-                      product.image,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Icon(Icons.fastfood, color: Colors.grey.shade400, size: context.rW(8)),
-                    )
-                  : Icon(Icons.fastfood, color: Colors.grey.shade400, size: context.rW(8)),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }

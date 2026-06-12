@@ -26,15 +26,18 @@ class AboutUsScreen extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color:AppColor.backgroundBlue,
+                color: AppColor.backgroundBlue,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
-                children:  [
-                 Container(
-                     height: 150,
-                     width: 100,
-                     child: Image(image: AssetImage('assets/splash_Icon/Logo.png'))),
+                children: [
+                  Container(
+                    height: 150,
+                    width: 100,
+                    child: Image(
+                      image: AssetImage('assets/splash_Icon/Logo.png'),
+                    ),
+                  ),
 
                   Text("Version 1.0.0 - Copyright"),
                 ],
@@ -45,8 +48,10 @@ class AboutUsScreen extends StatelessWidget {
 
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text("About Us",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(
+                "About Us",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
 
             const SizedBox(height: 10),
@@ -68,7 +73,6 @@ class AboutUsScreen extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 

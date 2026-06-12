@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../../../utils/app_routes.dart';
 import '../../../component/customTextformfelds/customTextfeilds.dart';
 import '../../../component/ustomButton/customButton.dart';
+
 import '../../../utils/costsColors/constColors.dart';
 import '../../../utils/responsiveClass/responosiveC;ass.dart';
-import '../otpSreen/otp_screen.dart';
-
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -31,11 +32,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColor.backgroundBlue,
       appBar: AppBar(
-        backgroundColor:AppColor.backgroundBlue,
+        backgroundColor: AppColor.backgroundBlue,
         elevation: 0,
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.back(),
           child: Icon(
             CupertinoIcons.back,
             color: Colors.white,
@@ -54,9 +55,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: APPResponsive.width(6),
-          ),
+          padding: EdgeInsets.symmetric(horizontal: APPResponsive.width(6)),
           child: Form(
             key: _formKey,
             child: Column(
@@ -87,7 +86,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   style: TextStyle(
                     fontSize: APPResponsive.width(6),
                     fontWeight: FontWeight.w800,
-                    color:  Colors.white,
+                    color: Colors.white,
                   ),
                 ),
 
@@ -120,8 +119,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
                     }
-                    if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        .hasMatch(value)) {
+                    if (!RegExp(
+                      r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
                       return 'Please enter a valid email';
                     }
                     return null;
@@ -135,17 +135,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   // label: 'Send OTP',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => OtpScreen(
-                            email: _emailController.text.trim(),
-                          ),
-                        ),
+                      Get.toNamed(
+                        AppRoutes.otp,
+                        arguments: _emailController.text.trim(),
                       );
                     }
-                  }, text: 'Send',
-                  isLoading: _isLoading ,
+                  },
+                  text: 'Send',
+                  isLoading: _isLoading,
                 ),
 
                 SizedBox(height: APPResponsive.height(3)),

@@ -1,6 +1,5 @@
 import '../../../../model/vochermodel/vochermodel.dart';
 
-
 class VoucherData {
   static List<Voucher> vouchers = [
     Voucher(
@@ -63,6 +62,5 @@ class VoucherData {
       discount: "🎁",
       image: "assets/splash_Icon/Logo.png",
     ),
-
   ];
 }

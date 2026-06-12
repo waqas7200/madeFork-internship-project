@@ -73,6 +73,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     super.initState();
     _updateCartCount();
   }
+
   int _totalCartItems = 0;
   void _updateCartCount() {
     int total = 0;
@@ -192,14 +193,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       body: Stack(
         children: [
           // --- Background Circles (Same as Home) ---
-
-          SizedBox(
-            height: context.rH(10),
-            width: context.rW(4),
-          ),
+          SizedBox(height: context.rH(10), width: context.rW(4)),
           Positioned(
             // Height aur Width ka hisab laga kar negative offset set kiya hai
-            top:-345,
+            top: -345,
             //-context.rH(45),
             left: -context.rW(4),
             child: Transform.rotate(
@@ -226,16 +223,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
           Column(
             children: [
-              SizedBox(
-                height: context.rH(10),
-                width: context.rW(4),
-              ),
+              SizedBox(height: context.rH(10), width: context.rW(4)),
               const SearchBarWidget(),
 
               Expanded(
                 child: Container(
-                 // margin: const EdgeInsets.symmetric(horizontal: 16),
-                 // padding: const EdgeInsets.all(12),
+                  // margin: const EdgeInsets.symmetric(horizontal: 16),
+                  // padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -243,7 +237,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   child: ListView.builder(
                     itemCount: orders.length,
                     // separatorBuilder: (_, __) =>
-                        // Divider(color: Colors.grey[300]),
+                    // Divider(color: Colors.grey[300]),
                     itemBuilder: (context, index) {
                       final order = orders[index];
 
@@ -258,16 +252,24 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          title: Text(order.name,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600)),
-                          subtitle: Text(order.date,
-                              style: TextStyle(
-                                  color: Colors.grey[500], fontSize: 12)),
-                          trailing: Text(order.price,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                              color: AppColor.backgroundYellow)),
+                          title: Text(
+                            order.name,
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text(
+                            order.date,
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 12,
+                            ),
+                          ),
+                          trailing: Text(
+                            order.price,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.backgroundYellow,
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -278,17 +280,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           ),
         ],
       ),
-
-
-
-     
     );
   }
 
   Widget navItem(IconData icon, bool isActive) {
-    return Icon(
-      icon,
-      color: isActive ? const Color(0xFFFFC107) : Colors.grey,
-    );
+    return Icon(icon, color: isActive ? const Color(0xFFFFC107) : Colors.grey);
   }
 }

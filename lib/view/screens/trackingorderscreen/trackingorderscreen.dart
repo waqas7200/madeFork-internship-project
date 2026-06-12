@@ -12,7 +12,10 @@ class TrackOrderScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.black87,
+          ),
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
@@ -21,25 +24,20 @@ class TrackOrderScreen extends StatelessWidget {
             );
           },
         ),
-        title: const Text(
-          "Track",
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text("Track", style: TextStyle(color: Colors.black)),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: CircleAvatar(
               radius: 16,
-              backgroundImage: NetworkImage(
-                  "https://i.pravatar.cc/150?img=3"),
+              backgroundImage: NetworkImage("https://i.pravatar.cc/150?img=3"),
             ),
-          )
+          ),
         ],
       ),
 
       body: Stack(
         children: [
-
           // 🗺️ Fake Map Background
           Container(
             width: double.infinity,
@@ -66,18 +64,16 @@ class TrackOrderScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-             // height: 300,
+              // height: 300,
               padding: const EdgeInsets.all(16),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius:
-                BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   // 🔘 Handle
                   Container(
                     width: 40,
@@ -95,81 +91,68 @@ class TrackOrderScreen extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Icon(Icons.star,
-                              color: Colors.orange, size: 18),
-                          Container(
-                            height: 30,
-                            width: 2,
-                            color: Colors.orange,
-                          ),
-                          Icon(Icons.star,
-                              color: Colors.orange, size: 18),
-                          Container(
-                            height: 30,
-                            width: 2,
-                            color: Colors.orange,
-                          ),
-                          Icon(Icons.star,
-                              color: Colors.grey, size: 18),
+                          Icon(Icons.star, color: Colors.orange, size: 18),
+                          Container(height: 30, width: 2, color: Colors.orange),
+                          Icon(Icons.star, color: Colors.orange, size: 18),
+                          Container(height: 30, width: 2, color: Colors.orange),
+                          Icon(Icons.star, color: Colors.grey, size: 18),
                         ],
                       ),
                       const SizedBox(width: 10),
 
                       Expanded(
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
                             Text(
                               "Cricket Ground Bld",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 2),
                             Text(
                               "8101 S Kenwood Ave, Chicago, IL",
                               style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey),
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
                             ),
                             SizedBox(height: 10),
                             Text(
                               "Courier ||",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 2),
                             Text(
                               "Delevering",
                               style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey),
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
                             ),
                             SizedBox(height: 10),
                             Text(
                               "Home",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 2),
                             Text(
                               "8000 S Kirkland Ave, Chicago",
                               style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey),
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
 
                   const SizedBox(height: 16),
-                  Text("Order Tracking ",
-                      style: TextStyle(
-                          fontWeight:
-                          FontWeight.bold,
-                      fontSize: 17)),
+                  Text(
+                    "Order Tracking ",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
                   const SizedBox(height: 16),
                   // 🚚 Courier Info
                   Row(
@@ -177,40 +160,39 @@ class TrackOrderScreen extends StatelessWidget {
                       const CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(
-                            "https://i.pravatar.cc/150?img=5"),
+                          "https://i.pravatar.cc/150?img=5",
+                        ),
                       ),
                       const SizedBox(width: 10),
 
                       const Expanded(
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Jordan Edwards",
-                                style: TextStyle(
-                                    fontWeight:
-                                    FontWeight.bold)),
-                            Text("Courier",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey)),
+                            Text(
+                              "Jordan Edwards",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "Courier",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-
-
 
                       // 💬 Message Button
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.orange,
-                          borderRadius:
-                          BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: IconButton(
                           onPressed: () {},
-                          icon: const Icon(Icons.message,
-                              color: Colors.white),
+                          icon: const Icon(Icons.message, color: Colors.white),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -218,17 +200,13 @@ class TrackOrderScreen extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.orange,
-                          borderRadius:
-                          BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: IconButton(
                           onPressed: () {},
-                          icon: const Icon(Icons.call,
-                              color: Colors.white),
+                          icon: const Icon(Icons.call, color: Colors.white),
                         ),
                       ),
-
-
                     ],
                   ),
 

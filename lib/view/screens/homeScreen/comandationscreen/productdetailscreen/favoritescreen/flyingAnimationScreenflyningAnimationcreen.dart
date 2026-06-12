@@ -17,15 +17,22 @@ class FlyAnimationWidget extends StatefulWidget {
   State<FlyAnimationWidget> createState() => _FlyAnimationWidgetState();
 }
 
-class _FlyAnimationWidgetState extends State<FlyAnimationWidget> with SingleTickerProviderStateMixin {
+class _FlyAnimationWidgetState extends State<FlyAnimationWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine);
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOutSine,
+    );
 
     _controller.forward().then((value) => widget.onComplete());
   }
@@ -41,9 +48,14 @@ class _FlyAnimationWidgetState extends State<FlyAnimationWidget> with SingleTick
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        double left = widget.startOffset.dx + (widget.endOffset.dx - widget.startOffset.dx) * _animation.value;
-        double top = widget.startOffset.dy + (widget.endOffset.dy - widget.startOffset.dy) * _animation.value;
-        double size = 100 * (1 - _animation.value * 0.7); // Image choti hoti jaye gi
+        double left =
+            widget.startOffset.dx +
+            (widget.endOffset.dx - widget.startOffset.dx) * _animation.value;
+        double top =
+            widget.startOffset.dy +
+            (widget.endOffset.dy - widget.startOffset.dy) * _animation.value;
+        double size =
+            100 * (1 - _animation.value * 0.7); // Image choti hoti jaye gi
 
         return Positioned(
           left: left,

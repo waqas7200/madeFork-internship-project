@@ -1,4 +1,3 @@
-
 // ─────────────────────────────────────────────
 //  SECTION HEADER
 // ─────────────────────────────────────────────
@@ -13,9 +12,12 @@ class SectionHeader extends StatelessWidget {
   final String actionLabel;
   final VoidCallback? onActionTap; // 👈 Optional callback add kiya
 
-  const SectionHeader({super.key, required this.title, required this.actionLabel,
+  const SectionHeader({
+    super.key,
+    required this.title,
+    required this.actionLabel,
     this.onActionTap, // 👈 Isko required nahi rakha taake ye optional rahe
-   });
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class SectionHeader extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontSize:  APPResponsive.width(3.5),
+              fontSize: APPResponsive.width(3.5),
               fontWeight: FontWeight.w700,
               color: Colors.black87,
             ),
@@ -44,7 +46,7 @@ class SectionHeader extends StatelessWidget {
               child: Text(
                 actionLabel,
                 style: TextStyle(
-                  fontSize:   APPResponsive.width(3.5),
+                  fontSize: APPResponsive.width(3.5),
                   color: const Color(0xFF00897B),
                   fontWeight: FontWeight.w600,
                 ),

@@ -28,9 +28,17 @@ class SearchBarWidget extends StatelessWidget {
             color: Colors.grey,
             fontSize: APPResponsive.fs(3.3, min: 11, max: 15),
           ),
-          prefixIcon: Icon(Icons.search, color: Colors.grey, size: context.rW(5).clamp(18, 24)),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.grey,
+            size: context.rW(5).clamp(18, 24),
+          ),
           suffixIcon: IconButton(
-            icon: Icon(Icons.tune, color: const Color(0xFF00897B), size: context.rW(5).clamp(18, 24)),
+            icon: Icon(
+              Icons.tune,
+              color: const Color(0xFF00897B),
+              size: context.rW(5).clamp(18, 24),
+            ),
             onPressed: () {},
           ),
           filled: true,

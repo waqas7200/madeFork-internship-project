@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:madeforke_app/view/utils/costsColors/constColors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../onbordingScreens/onbordingScreens.dart';
-import '../bottomNavigationBar/bottomNavgationBar.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,7 +13,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-
   late AnimationController _logoCtrl;
   late AnimationController _textCtrl;
   late AnimationController _rippleCtrl;
@@ -24,14 +23,13 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _textOpacity;
   late Animation<double> _ripple;
 
-  nextScreen()async{
+  nextScreen() async {
     await Future.delayed(Duration(seconds: 3));
-    }
+  }
 
   @override
   void initState() {
     super.initState();
-
 
     // Logo animation
     _logoCtrl = AnimationController(
@@ -69,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     _logoCtrl.forward();
     Future.delayed(
       const Duration(milliseconds: 500),
-          () => _textCtrl.forward(),
+      () => _textCtrl.forward(),
     );
 
     // Navigate after 3 seconds
@@ -77,16 +75,10 @@ class _SplashScreenState extends State<SplashScreen>
       final session = Supabase.instance.client.auth.currentSession;
       if (session != null) {
         // User already logged in -> Go to MainScreen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainScreen()),
-        );
+        Get.offAllNamed(AppRoutes.main);
       } else {
         // Guest user -> Go to OnboardingScreen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-        );
+        Get.offAllNamed(AppRoutes.onboarding);
       }
     });
   }
@@ -102,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  AppColor.backgroundBlue,
+      backgroundColor: AppColor.backgroundBlue,
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -171,7 +163,6 @@ class _SplashScreenState extends State<SplashScreen>
               //     ),
               //   ),
               // ),
-
               const SizedBox(height: 50),
 
               // Loading dots
@@ -248,8 +239,9 @@ class _LoadingDotsState extends State<_LoadingDots>
             height: 7 + (_ctrls[i].value * 3),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: const Color(0xFFD4891A)
-                  .withOpacity(0.3 + (_ctrls[i].value * 0.7)),
+              color: const Color(
+                0xFFD4891A,
+              ).withOpacity(0.3 + (_ctrls[i].value * 0.7)),
             ),
           ),
         );

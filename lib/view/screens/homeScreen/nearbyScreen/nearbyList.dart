@@ -1,4 +1,3 @@
-
 // ─────────────────────────────────────────────
 //  NEARBY LIST
 // ─────────────────────────────────────────────
@@ -16,6 +15,7 @@ import 'package:get/get.dart';
 import '../../../component/customNearby/customNearby.dart';
 import '../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../../../controller/nearby_controller.dart';
+import '../../../component/custom_loading_widget.dart';
 
 class NearbyList extends StatelessWidget {
   NearbyList({super.key});
@@ -25,8 +25,8 @@ class NearbyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
+      if (controller.isLoading.value && controller.nearbyRestaurants.isEmpty) {
+        return const Center(child: CustomLoadingWidget());
       }
 
       if (controller.errorMessage.value.isNotEmpty) {
@@ -47,7 +47,9 @@ class NearbyList extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: context.rW(4)),
-        itemCount: controller.nearbyRestaurants.length > 5 ? 5 : controller.nearbyRestaurants.length,
+        itemCount: controller.nearbyRestaurants.length > 5
+            ? 5
+            : controller.nearbyRestaurants.length,
         separatorBuilder: (_, __) => SizedBox(height: context.rH(1.2)),
         itemBuilder: (context, i) {
           final rest = controller.nearbyRestaurants[i];

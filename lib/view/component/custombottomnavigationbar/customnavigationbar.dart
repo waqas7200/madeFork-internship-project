@@ -1,6 +1,3 @@
-
-
-
 // ─────────────────────────────────────────────
 //  BOTTOM NAVIGATION BAR
 // ─────────────────────────────────────────────
@@ -21,10 +18,10 @@ class AppBottomNavBar extends StatelessWidget {
   });
 
   static const List<Map<String, dynamic>> _navItems = [
-    {'icon': Icons.home_rounded,          'label': 'Home'},
+    {'icon': Icons.home_rounded, 'label': 'Home'},
     {'icon': Icons.receipt_long_outlined, 'label': 'Orders'},
-    {'icon': Icons.chat_bubble_outline,   'label': 'Chat'},
-    {'icon': Icons.person_outline,        'label': 'Profile'},
+    {'icon': Icons.chat_bubble_outline, 'label': 'Chat'},
+    {'icon': Icons.person_outline, 'label': 'Profile'},
   ];
 
   @override

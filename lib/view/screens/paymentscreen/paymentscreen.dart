@@ -470,6 +470,7 @@ import '../../utils/responsiveClass/responosiveC;ass.dart';
 import '../bottomNavigationBar/bottomNavgationBar.dart';
 import '../ordersuccessscreen/ordersuccessscreen.dart';
 import '../homeScreen/myorderScreenCart/myOrderCart.dart';
+import '../../component/custom_loading_widget.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   final bool isFromCheckout;
@@ -494,8 +495,18 @@ class PaymentMethodScreen extends StatefulWidget {
 class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   // Mock Data mimicking API Response
   final List<Map<String, dynamic>> rawCards = [
-    {'cardNumber': '7741 6588 2123 6644', 'holderName': 'JORDAN WATSON', 'cardColor': '0xFF2D3436', 'brand': 'VISA'},
-    {'cardNumber': '3341 6888 1234 5678', 'holderName': 'JORDAN BLACK', 'cardColor': '0xFF00897B', 'brand': 'VISA'},
+    {
+      'cardNumber': '7741 6588 2123 6644',
+      'holderName': 'JORDAN WATSON',
+      'cardColor': '0xFF2D3436',
+      'brand': 'VISA',
+    },
+    {
+      'cardNumber': '3341 6888 1234 5678',
+      'holderName': 'JORDAN BLACK',
+      'cardColor': '0xFF00897B',
+      'brand': 'VISA',
+    },
   ];
 
   final List<Map<String, dynamic>> rawOptions = [
@@ -528,7 +539,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   Future<void> _placeOrderAndPay() async {
     if (cartItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Your cart is empty!"), backgroundColor: Colors.orange),
+        const SnackBar(
+          content: Text("Your cart is empty!"),
+          backgroundColor: Colors.orange,
+        ),
       );
       return;
     }
@@ -548,7 +562,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
 
       // 2. LIVE DYNAMIC ID DETECT: Hardcoding khatam, cart ke real product se ID nikal li
       String realRestaurantId = cartItems.first.restaurantId;
-      print("🚀 PRO-TRACKER: Order matching to dynamic Restaurant UUID = $realRestaurantId");
+      print(
+        "🚀 PRO-TRACKER: Order matching to dynamic Restaurant UUID = $realRestaurantId",
+      );
 
       // 3. Create Order Record in 'orders' table
       final orderData = {
@@ -556,20 +572,29 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         'user_id': userId,
         'total_amount': widget.total.toString(), // String safe injection
         'status': 'pending',
-        'address': widget.deliveryAddress.isNotEmpty ? widget.deliveryAddress : 'Default Address',
+        'address': widget.deliveryAddress.isNotEmpty
+            ? widget.deliveryAddress
+            : 'Default Address',
         'payment_method': selectedMethod,
-        'cash_received': selectedMethod == 'Cash on Delivery' || selectedMethod == 'Cash',
+        'cash_received':
+            selectedMethod == 'Cash on Delivery' || selectedMethod == 'Cash',
         'created_at': DateTime.now().toIso8601String(),
         'updated_at': DateTime.now().toIso8601String(),
       };
 
-      final orderResponse = await supabase.from('orders').insert(orderData).select('id').single();
+      final orderResponse = await supabase
+          .from('orders')
+          .insert(orderData)
+          .select('id')
+          .single();
       final String orderId = orderResponse['id'] as String;
 
       // 4. Create Order Items safely
       final List<Map<String, dynamic>> itemsToInsert = [];
       for (var item in cartItems) {
-        final double itemPrice = double.tryParse(item.price.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0;
+        final double itemPrice =
+            double.tryParse(item.price.replaceAll(RegExp(r'[^0-9.]'), '')) ??
+            0.0;
 
         // Agar dynamic uuid format fail ho tou verification handle hogi
         final String prodId = _isValidUuid(item.id) ? item.id : item.id;
@@ -606,9 +631,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => const OrderSuccessScreen(),
-          ),
+          MaterialPageRoute(builder: (context) => const OrderSuccessScreen()),
         );
       }
     } catch (e) {
@@ -648,14 +671,22 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   onTap: () => Navigator.pop(context),
                   child: _circleBtn(Icons.arrow_back),
                 ),
-                const Text("Payment", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text(
+                  "Payment",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 Row(
                   children: [
                     const Icon(Icons.shopping_cart_outlined),
                     const SizedBox(width: 10),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Container(color: Colors.white, height: 35, width: 35, child: const Icon(Icons.person)),
+                      child: Container(
+                        color: Colors.white,
+                        height: 35,
+                        width: 35,
+                        child: const Icon(Icons.person),
+                      ),
                     ),
                   ],
                 ),
@@ -667,7 +698,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               Positioned(
                 top: -490,
                 right: -95,
-                child: BackgroundCircle(size: 600, color: AppColor.backgroundYellow),
+                child: BackgroundCircle(
+                  size: 600,
+                  color: AppColor.backgroundYellow,
+                ),
               ),
               Positioned.fill(
                 child: ListView(
@@ -680,7 +714,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: cardList.length,
-                        itemBuilder: (context, index) => _cardWidget(cardList[index]),
+                        itemBuilder: (context, index) =>
+                            _cardWidget(cardList[index]),
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -694,41 +729,56 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           ),
           bottomNavigationBar: widget.isFromCheckout
               ? Container(
-            padding: EdgeInsets.fromLTRB(context.rW(4), context.rH(1.5), context.rW(4), context.rH(3.5)),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, -4),
-                )
-              ],
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: _placeOrderAndPay,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColor.backgroundBlue,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  elevation: 0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Pay with $selectedMethod",
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
+                  padding: EdgeInsets.fromLTRB(
+                    context.rW(4),
+                    context.rH(1.5),
+                    context.rW(4),
+                    context.rH(3.5),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, -4),
+                      ),
+                    ],
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _placeOrderAndPay,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.backgroundBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Pay with $selectedMethod",
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          const Icon(
+                            Icons.check_circle_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.check_circle_rounded, color: Colors.white, size: 18),
-                  ],
-                ),
-              ),
-            ),
-          )
+                  ),
+                )
               : null,
         ),
         if (_isSavingOrder)
@@ -737,24 +787,37 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             child: Center(
               child: Card(
                 color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 20,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(AppColor.backgroundBlue),
-                      ),
+                      const CustomLoadingWidget(),
                       const SizedBox(height: 16),
                       const Text(
                         "Processing Order & Payment...",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, decoration: TextDecoration.none, color: Colors.black87),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.none,
+                          color: Colors.black87,
+                        ),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         "Please do not close the app",
-                        style: TextStyle(color: Colors.grey.shade600, fontSize: 11, fontWeight: FontWeight.normal, decoration: TextDecoration.none),
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 11,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                     ],
                   ),
@@ -829,9 +892,16 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     children: [
                       Text(
                         card.holderName,
-                        style: const TextStyle(color: Colors.white70, fontSize: 11),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 11,
+                        ),
                       ),
-                      const Icon(Icons.contactless, color: Colors.white, size: 24),
+                      const Icon(
+                        Icons.contactless,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ],
                   ),
                 ],
@@ -853,12 +923,20 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: isSelected ? const Color(0xFFF5A623) : Colors.transparent),
+          border: Border.all(
+            color: isSelected ? const Color(0xFFF5A623) : Colors.transparent,
+          ),
         ),
         child: ListTile(
           leading: Icon(opt.icon, size: 30, color: Colors.blueGrey),
-          title: Text(opt.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-          subtitle: Text(opt.balance, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+          title: Text(
+            opt.title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          subtitle: Text(
+            opt.balance,
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+          ),
           trailing: Radio<String>(
             value: opt.title,
             groupValue: selectedMethod,
@@ -878,7 +956,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ),
           if (showAdd)
             Padding(
@@ -896,7 +977,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   Widget _circleBtn(IconData icon) {
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
       child: Icon(icon, size: 20, color: Colors.black),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/costsColors/constColors.dart';
 import '../../utils/responsiveClass/responosiveC;ass.dart';
+import '../custom_loading_widget.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -33,20 +34,20 @@ class CustomButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-          width: APPResponsive.width(5),
-          height: APPResponsive.width(5),
-          child: const CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 2.5,
-          ),
-        )
+                width: APPResponsive.width(5),
+                height: APPResponsive.width(5),
+                child: const CustomLoadingWidget(
+                  color: Colors.white,
+                  strokeWidth: 2.5,
+                ),
+              )
             : Text(
-          text,
-          style: TextStyle(
-            fontSize: APPResponsive.width(4.5),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+                text,
+                style: TextStyle(
+                  fontSize: APPResponsive.width(4.5),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }

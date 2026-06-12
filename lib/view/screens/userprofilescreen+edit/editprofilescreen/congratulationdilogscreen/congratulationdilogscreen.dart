@@ -97,7 +97,6 @@
 //   }
 // }
 
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -116,10 +115,7 @@ void showVipCongratsDialog(BuildContext context) {
       return FadeTransition(
         opacity: anim,
         child: ScaleTransition(
-          scale: CurvedAnimation(
-            parent: anim,
-            curve: Curves.easeOutBack,
-          ),
+          scale: CurvedAnimation(parent: anim, curve: Curves.easeOutBack),
           child: child,
         ),
       );
@@ -146,8 +142,9 @@ class _VipCongratsDialogState extends State<VipCongratsDialog>
     // Haptic Feedback
     HapticFeedback.mediumImpact();
 
-    _confettiController =
-        ConfettiController(duration: const Duration(seconds: 2));
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 2),
+    );
     _confettiController.play();
 
     _fadeController = AnimationController(
@@ -179,7 +176,7 @@ class _VipCongratsDialogState extends State<VipCongratsDialog>
               Colors.green,
               Colors.orange,
               Colors.blue,
-              Colors.pink
+              Colors.pink,
             ],
           ),
 
@@ -208,7 +205,7 @@ class _VipCongratsDialogState extends State<VipCongratsDialog>
                     color: Colors.black.withOpacity(0.15),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
-                  )
+                  ),
                 ],
               ),
               child: Column(
@@ -225,10 +222,7 @@ class _VipCongratsDialogState extends State<VipCongratsDialog>
 
                   const Text(
                     "Congratulations 🎉",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
 
                   const SizedBox(height: 8),
@@ -248,7 +242,9 @@ class _VipCongratsDialogState extends State<VipCongratsDialog>
                         borderRadius: BorderRadius.circular(12),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 12),
+                        horizontal: 30,
+                        vertical: 12,
+                      ),
                     ),
                     onPressed: () => Navigator.pop(context),
                     child: const Text("Done"),

@@ -44,8 +44,6 @@
 //   }
 // }
 
-
-
 // ─────────────────────────────────────────────
 //  CATEGORY MENU
 // ─────────────────────────────────────────────
@@ -54,20 +52,21 @@
 //  RESPONSIVE CATEGORY MENU
 // ─────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../../bottomNavigationBar/bottomNavgationBar.dart';
-import '../catageryscreene.dart';
 
 class CategoryMenu extends StatelessWidget {
   const CategoryMenu({super.key});
 
   static const List<Map<String, dynamic>> _categories = [
-    {'icon': Icons.apple,        'label': 'Fruit',  'color': Color(0xFFE57373)},
+    {'icon': Icons.apple, 'label': 'Fruit', 'color': Color(0xFFE57373)},
     {'icon': Icons.lunch_dining, 'label': 'Burger', 'color': Color(0xFFFF8A65)},
-    {'icon': Icons.icecream,     'label': 'Yogurt', 'color': Color(0xFFFFCA28)},
-    {'icon': Icons.cake,         'label': 'Cream',  'color': Color(0xFF64B5F6)},
-    {'icon': Icons.local_pizza,  'label': 'Pizza',  'color': Color(0xFF81C784)},
-    {'icon': Icons.coffee,       'label': 'Drinks', 'color': Color(0xFFA1887F)},
+    {'icon': Icons.icecream, 'label': 'Yogurt', 'color': Color(0xFFFFCA28)},
+    {'icon': Icons.cake, 'label': 'Cream', 'color': Color(0xFF64B5F6)},
+    {'icon': Icons.local_pizza, 'label': 'Pizza', 'color': Color(0xFF81C784)},
+    {'icon': Icons.coffee, 'label': 'Drinks', 'color': Color(0xFFA1887F)},
   ];
 
   @override
@@ -75,7 +74,10 @@ class CategoryMenu extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Screen width ke hisab se item size calculate ho rahi hai
-        final double itemWidth = (constraints.maxWidth * 0.22).clamp(85.0, 110.0);
+        final double itemWidth = (constraints.maxWidth * 0.22).clamp(
+          85.0,
+          110.0,
+        );
 
         return SizedBox(
           // AspectRatio ensure karega ke card ki shape har device par sahi rahe
@@ -88,12 +90,16 @@ class CategoryMenu extends StatelessWidget {
             itemBuilder: (context, i) {
               final cat = _categories[i];
               return InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CatagerytScreen()));
+                onTap: () {
+                  Get.toNamed(AppRoutes.category);
                 },
                 child: Container(
                   width: itemWidth,
-                  margin: EdgeInsets.only(right: context.rW(3), bottom: 5, top: 5),
+                  margin: EdgeInsets.only(
+                    right: context.rW(3),
+                    bottom: 5,
+                    top: 5,
+                  ),
                   child: Card(
                     elevation: 3,
                     shadowColor: (cat['color'] as Color).withOpacity(0.2),
@@ -113,7 +119,9 @@ class CategoryMenu extends StatelessWidget {
                           child: Icon(
                             cat['icon'] as IconData,
                             color: cat['color'] as Color,
-                            size: itemWidth * 0.35, // Width ke hisab se icon scale hoga
+                            size:
+                                itemWidth *
+                                0.35, // Width ke hisab se icon scale hoga
                           ),
                         ),
                         SizedBox(height: context.rH(1)),
@@ -125,7 +133,8 @@ class CategoryMenu extends StatelessWidget {
                             child: Text(
                               cat['label'] as String,
                               style: TextStyle(
-                                fontSize: itemWidth * 0.14, // Responsive font size
+                                fontSize:
+                                    itemWidth * 0.14, // Responsive font size
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),

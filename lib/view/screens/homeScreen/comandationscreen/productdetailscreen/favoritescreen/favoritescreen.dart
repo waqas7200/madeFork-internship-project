@@ -135,7 +135,6 @@
 //
 //
 
-
 import 'package:flutter/material.dart';
 
 import '../../../../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
@@ -161,139 +160,133 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
       body: globalFavoriteItems.isEmpty
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.favorite_border,
-              size: 80,
-              color: Colors.grey.shade300,
-            ),
-            SizedBox(height: 20),
-            Text(
-              "No favorites yet",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Add items to your favorites",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade400,
-              ),
-            ),
-          ],
-        ),
-      )
-          : ListView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: globalFavoriteItems.length,
-        itemBuilder: (context, index) {
-          final item = globalFavoriteItems[index];
-
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 8),
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 8,
-                  offset: Offset(0, 2),
-                )
-              ],
-            ),
-            child: Row(
-              children: [
-                // ✅ Product Image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    item.image,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.grey.shade200,
-                      child: Icon(Icons.image_not_supported),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.favorite_border,
+                    size: 80,
+                    color: Colors.grey.shade300,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "No favorites yet",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-                SizedBox(width: 12),
+                  SizedBox(height: 10),
+                  Text(
+                    "Add items to your favorites",
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade400),
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.all(10),
+              itemCount: globalFavoriteItems.length,
+              itemBuilder: (context, index) {
+                final item = globalFavoriteItems[index];
 
-                // Product Details
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: 6),
-                      Text(
-                        item.store,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        item.price,
-                        style: TextStyle(
-                          color: Color(0xFFE53935),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
                       ),
                     ],
                   ),
-                ),
-
-                // ✅ Remove Button - setState کے ساتھ
-                IconButton(
-                  icon: Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                    size: 24,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      // Global list سے remove کریں
-                      item.isFavorite = false;
-                      globalFavoriteItems.removeAt(index);
-                    });
-
-                    // SnackBar دکھائیں
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content:
-                        Text('${item.name} removed from favorites'),
-                        duration: Duration(seconds: 2),
-                        backgroundColor: Colors.red.shade400,
+                  child: Row(
+                    children: [
+                      // ✅ Product Image
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          item.image,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.grey.shade200,
+                            child: Icon(Icons.image_not_supported),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                ),
-              ],
+                      SizedBox(width: 12),
+
+                      // Product Details
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              item.store,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              item.price,
+                              style: TextStyle(
+                                color: Color(0xFFE53935),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // ✅ Remove Button - setState کے ساتھ
+                      IconButton(
+                        icon: Icon(Icons.favorite, color: Colors.red, size: 24),
+                        onPressed: () {
+                          setState(() {
+                            // Global list سے remove کریں
+                            item.isFavorite = false;
+                            globalFavoriteItems.removeAt(index);
+                          });
+
+                          // SnackBar دکھائیں
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                '${item.name} removed from favorites',
+                              ),
+                              duration: Duration(seconds: 2),
+                              backgroundColor: Colors.red.shade400,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

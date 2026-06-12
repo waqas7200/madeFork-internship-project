@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
@@ -35,7 +32,7 @@ class CategoryItem extends StatelessWidget {
           ),
           child: Icon(icon, color: color, size: itemSize * 0.5),
         ),
-        SizedBox(height:10),
+        SizedBox(height: 10),
         Text(
           label,
           style: TextStyle(

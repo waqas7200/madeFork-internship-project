@@ -23,12 +23,7 @@ class OrderItem {
 
   // TO MAP
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'date': date,
-      'price': price,
-      'image': image,
-    };
+    return {'name': name, 'date': date, 'price': price, 'image': image};
   }
 
   // FROM JSON

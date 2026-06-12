@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../utils/costsColors/constColors.dart';
 import '../../utils/responsiveClass/responosiveC;ass.dart';
-class CustomTextField extends StatefulWidget {
 
+class CustomTextField extends StatefulWidget {
   final String hint;
   final bool isPassword;
   final TextEditingController controller;
@@ -58,17 +58,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             suffixIcon: widget.isPassword
                 ? IconButton(
-              icon: Icon(
-                _obscure ? Icons.visibility_off : Icons.visibility,
-                color: Colors.grey.shade400,
-                size: APPResponsive.width(5),
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscure = !_obscure;
-                });
-              },
-            )
+                    icon: Icon(
+                      _obscure ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey.shade400,
+                      size: APPResponsive.width(5),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscure = !_obscure;
+                      });
+                    },
+                  )
                 : null,
             filled: true,
             fillColor: Colors.grey.shade100,
@@ -86,7 +86,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             // ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(APPResponsive.width(3)),
-              borderSide: BorderSide(color: AppColor.backgroundBlue, width: 1.5),
+              borderSide: BorderSide(
+                color: AppColor.backgroundBlue,
+                width: 1.5,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(APPResponsive.width(3)),
@@ -101,5 +104,4 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ],
     );
   }
-
 }

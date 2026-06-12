@@ -27,11 +27,16 @@ class RestaurantModel {
       name: json['shop_name']?.toString() ?? 'Unknown Shop',
       ownerName: json['owner_name']?.toString() ?? 'Unknown Owner',
       address: json['address']?.toString() ?? 'No address',
-      image: json['profile_pic_url']?.toString() ?? 'https://via.placeholder.com/200',
+      image:
+          json['profile_pic_url']?.toString() ??
+          'https://via.placeholder.com/200',
       rating: '4.5', // Update if you have rating in DB
       distanceInMeters: distance,
-      distanceStr: distance < 1000 ? '${distance.toStringAsFixed(0)} m' : '${(distance / 1000).toStringAsFixed(1)} km',
-      description: json['description']?.toString() ?? 'No description available',
+      distanceStr: distance < 1000
+          ? '${distance.toStringAsFixed(0)} m'
+          : '${(distance / 1000).toStringAsFixed(1)} km',
+      description:
+          json['description']?.toString() ?? 'No description available',
     );
   }
 
@@ -65,4 +70,3 @@ class RestaurantModel {
     );
   }
 }
-

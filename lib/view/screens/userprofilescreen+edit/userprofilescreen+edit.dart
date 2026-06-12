@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:madeforke_app/view/screens/userprofilescreen+edit/reusablemenutiel/resuablemenutile.dart';
 
 import '../../../model/userprofilemodel/userprofilemodel.dart';
+import '../../component/custom_signout_dilog/custom_sign_out_dilog.dart';
 import 'aboutUsScreen/aboutUsScreen.dart';
 import 'editprofilescreen/editprofilescreen.dart';
-
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -18,7 +18,6 @@ class ProfileScreen extends StatelessWidget {
 
       body: Stack(
         children: [
-
           // 🔶 Header
           Container(
             height: 200,
@@ -35,14 +34,11 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-
                     // Top Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:  [
-
-                        Text("Profile",
-                            style: TextStyle(color: Colors.white,)),
+                      children: [
+                        Text("Profile", style: TextStyle(color: Colors.white)),
                         Icon(Icons.shopping_cart, color: Colors.white),
                       ],
                     ),
@@ -58,24 +54,40 @@ class ProfileScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(user.name,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold)),
-                            Text(user.location,
-                                style: const TextStyle(color: Colors.black87)),
+                            Text(
+                              user.name,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              user.location,
+                              style: const TextStyle(color: Colors.black87),
+                            ),
                           ],
                         ),
                         Spacer(),
                         InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfileScreen()));
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(),
+                              ),
+                            );
                           },
                           child: CircleAvatar(
-                              radius: 18,backgroundColor: Colors.white,
-                              child: Icon(Icons.edit,color: Colors.black,size: 16,)),
-                        )
+                            radius: 18,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -84,10 +96,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-
-
           // 🔢 Stats Card
-
           Padding(
             padding: const EdgeInsets.only(top: 150),
             child: Container(
@@ -112,26 +121,50 @@ class ProfileScreen extends StatelessWidget {
           // 📋 Menu List
           Padding(
             padding: const EdgeInsets.only(top: 250),
-            child:  Container(
+            child: Container(
               child: ListView(
                 children: [
-                  const ProfileTile(icon: Icons.history, title: "Order History",iconColor: Colors.black54,),
-                  const ProfileTile(icon: Icons.payment, title: "Payment Method",iconColor: Colors.black54),
-                  const ProfileTile(icon: Icons.location_on, title: "My Address",iconColor: Colors.black54),
-                  const ProfileTile(icon: Icons.favorite, title: "My Favorite",iconColor: Colors.black54),
+                  const ProfileTile(
+                    icon: Icons.history,
+                    title: "Order History",
+                    iconColor: Colors.black54,
+                  ),
+                  const ProfileTile(
+                    icon: Icons.payment,
+                    title: "Payment Method",
+                    iconColor: Colors.black54,
+                  ),
+                  const ProfileTile(
+                    icon: Icons.location_on,
+                    title: "My Address",
+                    iconColor: Colors.black54,
+                  ),
+                  const ProfileTile(
+                    icon: Icons.favorite,
+                    title: "My Favorite",
+                    iconColor: Colors.black54,
+                  ),
                   InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder:
-                            (context)=>AboutUsScreen()));
-                      },
-                      child: const ProfileTile(icon: Icons.info, title: "About Us",iconColor: Colors.black54)),
-                   ProfileTile(icon: Icons.logout, title: "Sign Out",),
+                    onTap: () {
+                      SignOutDialog();
+                    },
+                    child: const ProfileTile(
+                      icon: Icons.info,
+                      title: "About Us",
+                      iconColor: Colors.black54,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => SignOutDialog.show(),
+                    child: const ProfileTile(
+                      icon: Icons.logout,
+                      title: "Sign Out",
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-
-
         ],
       ),
     );
@@ -140,14 +173,15 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildStat(int value, String label) {
     return Column(
       children: [
-        Text("$value",
-            style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+        Text(
+          "$value",
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
         Text(label, style: const TextStyle(color: Colors.grey)),
       ],
     );
   }
 }
-
 
 class ProfileData {
   static UserProfile user = UserProfile(

@@ -81,7 +81,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:madeforke_app/view/utils/costsColors/constColors.dart';
 
@@ -127,13 +126,16 @@ class _TopSnackBarWidgetState extends State<_TopSnackBarWidget>
     );
 
     // Upar se neechay slide honay ki animation
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0, -1.5),
-      end: const Offset(0, 0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutBack, // Thora bounce effect ke liye
-    ));
+    _offsetAnimation =
+        Tween<Offset>(
+          begin: const Offset(0, -1.5),
+          end: const Offset(0, 0),
+        ).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: Curves.easeOutBack, // Thora bounce effect ke liye
+          ),
+        );
 
     _controller.forward();
 
@@ -166,12 +168,16 @@ class _TopSnackBarWidgetState extends State<_TopSnackBarWidget>
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               // Glassy Modern Look
-              color:AppColor.backgroundYellow.withOpacity(0.95),
+              color: AppColor.backgroundYellow.withOpacity(0.95),
               // const Color(0xFF1A237E)
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white24),
               boxShadow: const [
-                BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 4)),
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: Offset(0, 4),
+                ),
               ],
             ),
             child: Row(
@@ -181,7 +187,10 @@ class _TopSnackBarWidgetState extends State<_TopSnackBarWidget>
                 Expanded(
                   child: Text(
                     widget.message,
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],

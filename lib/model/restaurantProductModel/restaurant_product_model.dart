@@ -44,7 +44,9 @@ class RestaurantProductModel {
       discount: (json['discount'] as num?)?.toDouble() ?? 0.0,
       total: (json['total'] as num?)?.toDouble() ?? 0.0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      image: (json['product_images'] != null && (json['product_images'] as List).isNotEmpty)
+      image:
+          (json['product_images'] != null &&
+              (json['product_images'] as List).isNotEmpty)
           ? json['product_images'][0]['image_url']?.toString() ?? ''
           : '',
     );

@@ -12,7 +12,8 @@ class OrderSuccessScreen extends StatefulWidget {
   State<OrderSuccessScreen> createState() => _OrderSuccessScreenState();
 }
 
-class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTickerProviderStateMixin {
+class _OrderSuccessScreenState extends State<OrderSuccessScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
@@ -54,7 +55,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     APPResponsive().init(context);
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -85,7 +86,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  
+
                   // Animated Illustration
                   ScaleTransition(
                     scale: _scaleAnimation,
@@ -105,7 +106,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
                               color: AppColor.backgroundBlue.withOpacity(0.4),
                               blurRadius: 20,
                               offset: const Offset(0, 10),
-                            )
+                            ),
                           ],
                         ),
                         child: const Icon(
@@ -116,7 +117,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 40),
 
                   // Animated Texts
@@ -143,7 +144,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
                           ),
                         ),
                         const SizedBox(height: 30),
-                        
+
                         // Order details card
                         Container(
                           padding: const EdgeInsets.all(16),
@@ -156,7 +157,10 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
                             children: [
                               _buildDetailRow("Order ID", "#MF-90284"),
                               const Divider(height: 24, thickness: 1),
-                              _buildDetailRow("Estimated Delivery", "25 - 35 mins"),
+                              _buildDetailRow(
+                                "Estimated Delivery",
+                                "25 - 35 mins",
+                              ),
                               const Divider(height: 24, thickness: 1),
                               _buildDetailRow("Payment Mode", "Credit Card"),
                             ],
@@ -219,7 +223,10 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
                               );
                             },
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: AppColor.backgroundBlue, width: 1.5),
+                              side: BorderSide(
+                                color: AppColor.backgroundBlue,
+                                width: 1.5,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
                               ),
@@ -253,11 +260,19 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> with SingleTick
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 13, color: Colors.grey.shade500, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey.shade500,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         Text(
           value,
-          style: const TextStyle(fontSize: 13, color: Colors.black87, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

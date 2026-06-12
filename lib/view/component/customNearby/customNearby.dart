@@ -122,13 +122,13 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../model/nerabyresturentModel/nearbyresturntModl.dart';
 import '../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
 import '../../screens/homeScreen/comandationscreen/productdetailscreen/productdetilscreen.dart';
-import '../../screens/homeScreen/nearbyScreen/restaurantDetailScreen/restaurant_detail_screen.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class NearbyCard extends StatelessWidget {
@@ -144,12 +144,7 @@ class NearbyCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (restaurant != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => RestaurantDetailScreen(restaurant: restaurant!),
-            ),
-          );
+          Get.toNamed(AppRoutes.restaurantDetail, arguments: restaurant);
         }
       },
       child: Container(
@@ -191,9 +186,11 @@ class NearbyCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: context.rW(1)),
-                      Icon(Icons.verified,
-                          color: const Color(0xFF00897B),
-                          size: context.rW(3.5).clamp(12, 18)),
+                      Icon(
+                        Icons.verified,
+                        color: const Color(0xFF00897B),
+                        size: context.rW(3.5).clamp(12, 18),
+                      ),
                     ],
                   ),
                   SizedBox(height: context.rH(0.3)),
@@ -207,9 +204,11 @@ class NearbyCard extends StatelessWidget {
                   SizedBox(height: context.rH(0.5)),
                   Row(
                     children: [
-                      Icon(Icons.star,
-                          color: Colors.amber,
-                          size: context.rW(3.2).clamp(11, 16)),
+                      Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                        size: context.rW(3.2).clamp(11, 16),
+                      ),
                       SizedBox(width: context.rW(0.8)),
                       Text(
                         item['rating']!,
@@ -219,9 +218,11 @@ class NearbyCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: context.rW(2)),
-                      Icon(Icons.location_on_outlined,
-                          size: context.rW(3.2).clamp(11, 16),
-                          color: Colors.grey),
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: context.rW(3.2).clamp(11, 16),
+                        color: Colors.grey,
+                      ),
                       SizedBox(width: context.rW(0.8)),
                       Text(
                         item['distance']!,

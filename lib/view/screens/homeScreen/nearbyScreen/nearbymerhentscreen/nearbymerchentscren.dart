@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../component/customCircleAvator/customCircleavators.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../../../utils/costsColors/constColors.dart';
 import '../../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../../bottomNavigationBar/bottomNavgationBar.dart';
 import '../../../../../controller/nearby_controller.dart';
 import '../../../../../model/nerabyresturentModel/nearbyresturntModl.dart';
-import '../restaurantDetailScreen/restaurant_detail_screen.dart';
+import '../../../../component/custom_loading_widget.dart';
 
 class NearByMerchantScreen extends StatefulWidget {
   const NearByMerchantScreen({super.key});
@@ -17,7 +18,12 @@ class NearByMerchantScreen extends StatefulWidget {
 
 class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
   int selectedTabIndex = 0;
-  final List<String> categories = ["All Location", "Breakfast", "Lunch", "Dinner"];
+  final List<String> categories = [
+    "All Location",
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +32,9 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
       body: Stack(
         children: [
           // --- Background Circles (Same as Home) ---
-
-
           Positioned(
             // Height aur Width ka hisab laga kar negative offset set kiya hai
-            top:-345,
+            top: -345,
             //-context.rH(45),
             left: -context.rW(4),
             child: Transform.rotate(
@@ -62,7 +66,10 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
 
                 // --- Search Bar ---
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: context.rW(5), vertical: context.rH(1)),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.rW(5),
+                    vertical: context.rH(1),
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -72,16 +79,24 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
                           color: Colors.black.withOpacity(0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 5),
-                        )
+                        ),
                       ],
                     ),
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: "Find for food or restaurant",
-                        hintStyle: TextStyle(fontSize: APPResponsive.fs(3.5), color: Colors.grey),
-                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                        hintStyle: TextStyle(
+                          fontSize: APPResponsive.fs(3.5),
+                          color: Colors.grey,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: context.rH(1.5)),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: context.rH(1.5),
+                        ),
                       ),
                     ),
                   ),
@@ -97,8 +112,9 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
                         ? Get.find<NearbyController>()
                         : Get.put(NearbyController());
 
-                    if (controller.isLoading.value) {
-                      return const Center(child: CircularProgressIndicator());
+                    if (controller.isLoading.value &&
+                        controller.nearbyRestaurants.isEmpty) {
+                      return const Center(child: CustomLoadingWidget());
                     }
 
                     if (controller.errorMessage.value.isNotEmpty) {
@@ -124,7 +140,10 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
                     }
 
                     return ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: context.rW(5), vertical: context.rH(2)),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.rW(5),
+                        vertical: context.rH(2),
+                      ),
                       itemCount: controller.nearbyRestaurants.length,
                       itemBuilder: (context, index) {
                         return MerchantCard(
@@ -144,12 +163,15 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
 
   Widget _buildAppBar(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.rW(4), vertical: context.rH(1)),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.rW(4),
+        vertical: context.rH(1),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Get.back(),
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           ),
           Text(
@@ -162,11 +184,16 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
           ),
           Row(
             children: [
-              Icon(Icons.shopping_cart_outlined, color: AppColor.backgroundBlue),
+              Icon(
+                Icons.shopping_cart_outlined,
+                color: AppColor.backgroundBlue,
+              ),
               SizedBox(width: context.rW(3)),
               CircleAvatar(
                 radius: context.rW(4),
-                backgroundImage: const NetworkImage('https://i.pravatar.cc/150?img=47'),
+                backgroundImage: const NetworkImage(
+                  'https://i.pravatar.cc/150?img=47',
+                ),
               ),
             ],
           ),
@@ -195,7 +222,9 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
                     categories[index],
                     style: TextStyle(
                       color: isSelected ? Colors.orange : Colors.grey,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       fontSize: APPResponsive.fs(3.5),
                     ),
                   ),
@@ -215,7 +244,7 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
                         // Premium look ke liye thora sa curve (Optional)
                         borderRadius: BorderRadius.circular(10),
                       ),
-                    )
+                    ),
                 ],
               ),
             ),
@@ -236,125 +265,156 @@ class MerchantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => RestaurantDetailScreen(restaurant: restaurant),
-          ),
-        );
+        Get.toNamed(AppRoutes.restaurantDetail, arguments: restaurant);
       },
       child: Container(
-      margin: EdgeInsets.only(bottom: context.rH(2.5)),
-      padding: EdgeInsets.all(context.rW(3)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // First Row: Logo, Name, Distance
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: context.rW(16), // Thora size barha diya design ke liye
-                height: context.rW(16),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200, // Image load hone se pehle ye dikhega
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Colors.grey.shade100), // Premium border
-                ),
-                // ClipRRect use karein taake image corners ke bahar na nikalay
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    restaurant.image,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Image(image: AssetImage('assets/splash_Icon/img.png'), fit: BoxFit.cover);
-                    },
+        margin: EdgeInsets.only(bottom: context.rH(2.5)),
+        padding: EdgeInsets.all(context.rW(3)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // First Row: Logo, Name, Distance
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: context.rW(16), // Thora size barha diya design ke liye
+                  height: context.rW(16),
+                  decoration: BoxDecoration(
+                    color: Colors
+                        .grey
+                        .shade200, // Image load hone se pehle ye dikhega
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: Colors.grey.shade100,
+                    ), // Premium border
+                  ),
+                  // ClipRRect use karein taake image corners ke bahar na nikalay
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.network(
+                      restaurant.image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Image(
+                          image: AssetImage('assets/splash_Icon/img.png'),
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
 
-              SizedBox(width: context.rW(3)),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                SizedBox(width: context.rW(3)),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        restaurant.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: APPResponsive.fs(4),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Owner: ${restaurant.ownerName}',
+                        style: TextStyle(
+                          color: Colors.grey.shade700,
+                          fontSize: APPResponsive.fs(3),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        restaurant.address,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: APPResponsive.fs(3),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      restaurant.name,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: APPResponsive.fs(4)),
-                      overflow: TextOverflow.ellipsis,
+                      restaurant.distanceStr,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: APPResponsive.fs(3),
+                      ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Owner: ${restaurant.ownerName}',
-                      style: TextStyle(color: Colors.grey.shade700, fontSize: APPResponsive.fs(3)),
-                      overflow: TextOverflow.ellipsis,
+                    const SizedBox(height: 5),
+                    CircleAvatar(
+                      radius: 12,
+                      backgroundColor: Colors.orange.withOpacity(0.2),
+                      child: const Icon(
+                        Icons.card_giftcard,
+                        size: 14,
+                        color: Colors.orange,
+                      ),
                     ),
-                    const SizedBox(height: 2),
                     Text(
-                      restaurant.address,
-                      style: TextStyle(color: Colors.grey, fontSize: APPResponsive.fs(3)),
-                      overflow: TextOverflow.ellipsis,
+                      'Rewards',
+                      style: TextStyle(
+                        fontSize: APPResponsive.fs(2.5),
+                        color: Colors.orange,
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    restaurant.distanceStr,
-                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: APPResponsive.fs(3)),
-                  ),
-                  const SizedBox(height: 5),
-                  CircleAvatar(
-                    radius: 12,
-                    backgroundColor: Colors.orange.withOpacity(0.2),
-                    child: const Icon(Icons.card_giftcard, size: 14, color: Colors.orange),
-                  ),
-                  Text('Rewards', style: TextStyle(fontSize: APPResponsive.fs(2.5), color: Colors.orange)),
-                ],
-              )
-            ],
-          ),
-          if (restaurant.description.isNotEmpty) ...[
-            SizedBox(height: context.rH(1.5)),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(context.rW(2)),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                restaurant.description,
-                style: TextStyle(
-                  fontSize: APPResponsive.fs(2.8),
-                  color: Colors.grey.shade600,
-                  fontStyle: FontStyle.italic,
+              ],
+            ),
+            if (restaurant.description.isNotEmpty) ...[
+              SizedBox(height: context.rH(1.5)),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(context.rW(2)),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade50,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                child: Text(
+                  restaurant.description,
+                  style: TextStyle(
+                    fontSize: APPResponsive.fs(2.8),
+                    color: Colors.grey.shade600,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+            ],
+            SizedBox(height: context.rH(1.5)),
+            // Second Row: Food Images
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _foodThumb(
+                  context,
+                  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400',
+                ),
+                _foodThumb(
+                  context,
+                  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200',
+                ),
+                _seeMoreThumb(context),
+              ],
             ),
           ],
-          SizedBox(height: context.rH(1.5)),
-          // Second Row: Food Images
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _foodThumb(context, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400'),
-              _foodThumb(context, 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200'),
-              _seeMoreThumb(context),
-            ],
-          )
-        ],
-      ),
+        ),
       ),
     );
   }
@@ -382,7 +442,13 @@ class MerchantCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
-          Text('See more', style: TextStyle(fontSize: APPResponsive.fs(2.5), color: Colors.grey)),
+          Text(
+            'See more',
+            style: TextStyle(
+              fontSize: APPResponsive.fs(2.5),
+              color: Colors.grey,
+            ),
+          ),
         ],
       ),
     );

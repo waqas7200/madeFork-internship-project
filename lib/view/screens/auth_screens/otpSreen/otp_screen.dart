@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import '../../../component/ustomButton/customButton.dart';
 import '../../../utils/costsColors/constColors.dart';
 import '../../../utils/responsiveClass/responosiveC;ass.dart';
-
 
 class OtpScreen extends StatefulWidget {
   final String email;
@@ -19,8 +19,10 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   bool _isLoading = false;
   // 4 OTP box controllers & focus nodes
-  final List<TextEditingController> _controllers =
-  List.generate(4, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
 
   @override
@@ -38,22 +40,21 @@ class _OtpScreenState extends State<OtpScreen> {
     }
   }
 
-  String get _otpCode =>
-      _controllers.map((c) => c.text).join();
+  String get _otpCode => _controllers.map((c) => c.text).join();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:AppColor.backgroundBlue,
+      backgroundColor: AppColor.backgroundBlue,
       appBar: AppBar(
         backgroundColor: AppColor.backgroundBlue,
         elevation: 0,
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.back(),
           child: Icon(
             CupertinoIcons.back,
-            color:  Colors.white,
+            color: Colors.white,
             size: APPResponsive.width(6.5),
           ),
         ),
@@ -69,9 +70,7 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: APPResponsive.width(6),
-          ),
+          padding: EdgeInsets.symmetric(horizontal: APPResponsive.width(6)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -100,7 +99,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 style: TextStyle(
                   fontSize: APPResponsive.width(5.5),
                   fontWeight: FontWeight.w800,
-                  color:  Colors.white,
+                  color: Colors.white,
                 ),
               ),
 
@@ -147,8 +146,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                     decoration: BoxDecoration(
                       color: Colors.grey,
-                      borderRadius:
-                      BorderRadius.circular(APPResponsive.width(3)),
+                      borderRadius: BorderRadius.circular(
+                        APPResponsive.width(3),
+                      ),
                       border: Border.all(
                         color: _focusNodes[index].hasFocus
                             ? AppColor.backgroundYellow
@@ -162,9 +162,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
                       maxLength: 1,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       style: TextStyle(
                         fontSize: APPResponsive.width(5.5),
                         fontWeight: FontWeight.w700,
@@ -203,7 +201,8 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     );
                   }
-                }, text: 'Send',
+                },
+                text: 'Send',
                 isLoading: _isLoading,
               ),
 

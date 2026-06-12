@@ -1,4 +1,3 @@
-
 // ─────────────────────────────────────────────
 //  HEADER
 // ─────────────────────────────────────────────
@@ -14,7 +13,7 @@ class AppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:  Colors.transparent,
+      color: Colors.transparent,
       padding: EdgeInsets.symmetric(
         horizontal: context.rW(4),
         vertical: context.rH(1.8),

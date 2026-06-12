@@ -141,8 +141,10 @@ class Product {
       store: "McDonald's",
       restaurantId: 'd3b07384-d113-4ec6-a5d2-08f6d7293a5b',
       price: '₱98.00',
-      image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300',
-      description: "wefskjxnieskjd sdhcjhew8i23wds shjkclhq3iwesdnckea jkshdc3iewhdkxncie sfdckesdciefdscnx jsfcuehfdciiejdsxcnjskdhciuekjdsx jdcjxkfhhhfksh8es jhufhxkjhehskdjh",
+      image:
+          'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300',
+      description:
+          "wefskjxnieskjd sdhcjhew8i23wds shjkclhq3iwesdnckea jkshdc3iewhdkxncie sfdckesdciefdscnx jsfcuehfdciiejdsxcnjskdhciuekjdsx jdcjxkfhhhfksh8es jhufhxkjhehskdjh",
       sizes: ['32 oz', '48 oz', '59 oz', '64 oz', '96 oz'],
       rating: 4.5,
       reviews: 234,
@@ -154,7 +156,8 @@ class Product {
       restaurantId: 'd3b07384-d113-4ec6-a5d2-08f6d7293a5b',
       price: '₱98.00',
       image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=300',
-      description: 'بلیو بیری کا لذیذ مشروب جو آپ کو گرم موسم میں ٹھنڈا رکھے گا۔',
+      description:
+          'بلیو بیری کا لذیذ مشروب جو آپ کو گرم موسم میں ٹھنڈا رکھے گا۔',
       sizes: ['32 oz', '48 oz', '59 oz', '64 oz', '96 oz'],
       rating: 4.3,
       reviews: 189,
@@ -165,8 +168,10 @@ class Product {
       store: "Starbucks",
       restaurantId: 'a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6',
       price: '₱134.00',
-      image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300',
-      description: 'Pats Burger ایک شاندار اور مزیدار برگر ہے جو ہمارے باورچی خانہ سے براہ راست تیار ہے۔',
+      image:
+          'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300',
+      description:
+          'Pats Burger ایک شاندار اور مزیدار برگر ہے جو ہمارے باورچی خانہ سے براہ راست تیار ہے۔',
       sizes: ['Small', 'Medium', 'Large'],
       rating: 4.7,
       reviews: 412,
@@ -177,8 +182,10 @@ class Product {
       store: "McDonald's",
       restaurantId: 'd3b07384-d113-4ec6-a5d2-08f6d7293a5b',
       price: '₱98.00',
-      image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300',
-      description: 'صحت مند اور لذیذ بیری یوگرٹ جو آپ کی صحت کے لیے بہت اچھی ہے۔',
+      image:
+          'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300',
+      description:
+          'صحت مند اور لذیذ بیری یوگرٹ جو آپ کی صحت کے لیے بہت اچھی ہے۔',
       sizes: ['150g', '200g', '300g', '500g'],
       rating: 4.4,
       reviews: 321,

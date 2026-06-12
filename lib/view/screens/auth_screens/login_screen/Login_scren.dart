@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:madeforke_app/view/utils/costsColors/constColors.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../../component/customTextformfelds/customTextfeilds.dart';
 import '../../../component/ustomButton/customButton.dart';
 import '../../../utils/responsiveClass/responosiveC;ass.dart';
-import '../../bottomNavigationBar/bottomNavgationBar.dart' hide APPResponsive;
-import '../../homeScreen/HomeScreen.dart';
-import '../forgeScreen/forgetpasword_screen.dart';
-import '../registerScreen/reisterScreen.dart';
-
-
-
-
-
 
 // ==================== LOGIN SCREEN ====================
 
@@ -55,10 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
               backgroundColor: Colors.green,
             ),
           );
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MainScreen()),
-          );
+          Get.offAllNamed(AppRoutes.main);
         }
       } catch (e) {
         if (mounted) {
@@ -103,10 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-
-
-
-
                 SizedBox(height: APPResponsive.height(4)),
 
                 // Welcome Text
@@ -141,8 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Email required';
                     }
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        .hasMatch(value)) {
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
                       return 'Enter valid email';
                     }
                     return null;
@@ -175,13 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForgetPasswordScreen()),
-                      );
-                    },
+                    onTap: () => Get.toNamed(AppRoutes.forgotPassword),
                     child: Text(
                       "Forgot Password?",
                       style: TextStyle(
@@ -217,13 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RegisterScreen()),
-                          );
-                        },
+                        onTap: () => Get.toNamed(AppRoutes.register),
                         child: Text(
                           "Register Now",
                           style: TextStyle(
@@ -246,5 +223,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-

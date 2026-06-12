@@ -1,4 +1,3 @@
-
 // ─────────────────────────────────────────────
 //  AUTO-SWIPE BANNER SLIDER
 // ─────────────────────────────────────────────
@@ -28,21 +27,24 @@ class _BannerSliderState extends State<BannerSlider> {
       'title': "Eat gelato like\nthere's no tomorrow!",
       'sub': 'Hello! Luke Thomp',
       'discount': '50%\nAll Items',
-      'image': 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400',
+      'image':
+          'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400',
       'bg': '0xFF00897B',
     },
     {
       'title': 'Fresh burgers\ndelivered fast!',
       'sub': 'Hello! Sarah K.',
       'discount': '30%\nBurgers',
-      'image': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
+      'image':
+          'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
       'bg': '0xFFE65100',
     },
     {
       'title': 'Sweet drinks\nfor sweet moments',
       'sub': 'Hello! John D.',
       'discount': '20%\nDrinks',
-      'image': 'https://images.unsplash.com/photo-1437418747212-8d9709afab22?w=400',
+      'image':
+          'https://images.unsplash.com/photo-1437418747212-8d9709afab22?w=400',
       'bg': '0xFF1565C0',
     },
   ];
@@ -113,5 +115,3 @@ class _BannerSliderState extends State<BannerSlider> {
     );
   }
 }
-
-

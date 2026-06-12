@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../utils/app_routes.dart';
 
 import '../../utils/responsiveClass/responosiveC;ass.dart';
 import '../bottomNavigationBar/bottomNavgationBar.dart';
@@ -34,10 +36,7 @@ class _FilterScreenState extends State<FilterScreen> {
         //leading: const Icon(Icons.arrow_back, color: Colors.black),
         title: Text(
           "Filter",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: context.rH(2.2),
-          ),
+          style: TextStyle(color: Colors.black, fontSize: context.rH(2.2)),
         ),
         actions: [
           Icon(Icons.shopping_cart, color: Colors.black, size: context.rH(2.5)),
@@ -52,7 +51,6 @@ class _FilterScreenState extends State<FilterScreen> {
           padding: EdgeInsets.symmetric(horizontal: context.rW(4)),
           child: ListView(
             children: [
-
               SizedBox(height: context.rH(2)),
 
               // 🔹 Sort By
@@ -124,7 +122,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen()));
+                    Get.toNamed(AppRoutes.trackOrder);
                   },
                   child: Text(
                     "Search (23)",
@@ -145,10 +143,7 @@ class _FilterScreenState extends State<FilterScreen> {
   Widget buildTitle(String text) {
     return Text(
       text,
-      style: TextStyle(
-        fontSize: context.rH(2),
-        fontWeight: FontWeight.bold,
-      ),
+      style: TextStyle(fontSize: context.rH(2), fontWeight: FontWeight.bold),
     );
   }
   //
@@ -203,15 +198,10 @@ class _FilterScreenState extends State<FilterScreen> {
 
         // 🔻 Underline / Divider
         if (showDivider)
-          Divider(
-            height: 0,
-            thickness: 0.8,
-            color: Colors.grey.shade300,
-          ),
+          Divider(height: 0, thickness: 0.8, color: Colors.grey.shade300),
       ],
     );
   }
-
 
   // 🔹 Order Card
   Widget buildOrderCard(String title, String price, IconData icon) {

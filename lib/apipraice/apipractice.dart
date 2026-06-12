@@ -8,13 +8,8 @@ Future<void> sendOtp(String phone) async {
 
   final response = await http.post(
     url,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode({
-      "phone": phone,
-      "role": "user"
-    }),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({"phone": phone, "role": "user"}),
   );
 
   if (response.statusCode == 200) {
@@ -24,8 +19,6 @@ Future<void> sendOtp(String phone) async {
     print("Error: ${response.body}");
   }
 }
-
-
 
 class OtpScreen extends StatefulWidget {
   @override
@@ -40,9 +33,9 @@ class _OtpScreenState extends State<OtpScreen> {
     String phone = phoneController.text.trim();
 
     if (phone.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Enter phone number")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Enter phone number")));
       return;
     }
 
@@ -64,10 +57,7 @@ class _OtpScreenState extends State<OtpScreen> {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "phone": phone,
-          "role": "user"
-        }),
+        body: jsonEncode({"phone": phone, "role": "user"}),
       );
 
       final data = jsonDecode(response.body);
@@ -75,11 +65,10 @@ class _OtpScreenState extends State<OtpScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(data['message'] ?? "Response received")),
       );
-
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error sending OTP")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error sending OTP")));
     }
   }
 

@@ -109,15 +109,14 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:madeforke_app/view/utils/costsColors/constColors.dart';
 
 import '../../component/customCircleAvator/customCircleavators.dart';
 import '../../component/onbordinfg_Custom/onboding-custom.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../utils/responsiveClass/responosiveC;ass.dart';
-import '../auth_screens/login_screen/Login_scren.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -130,14 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<Map<String, String>> _pages = [
-    {
-      },
-    {
-       },
-    {
-       },
-  ];
+  final List<Map<String, String>> _pages = [{}, {}, {}];
 
   void _onButtonPressed() {
     if (_currentPage < _pages.length - 1) {
@@ -148,10 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       );
     } else {
       // Last page par Login screen par jao
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+      Get.offAllNamed(AppRoutes.login);
     }
   }
 
@@ -168,16 +157,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         scrolledUnderElevation: 0, // 👈 scroll par bhi background na aaye
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
-            },
+            onPressed: () => Get.offAllNamed(AppRoutes.login),
             child: Text(
               "Skip",
               style: TextStyle(
-                color:AppColor.textBlack,
+                color: AppColor.textBlack,
                 fontSize: APPResponsive.width(4),
                 fontWeight: FontWeight.w600,
               ),
@@ -188,13 +172,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: AppColor.backgroundBlue,
       body: Stack(
         children: [
-
-
           // --- Upper Right Background Design ---
           Positioned(
             top: -280,
             right: -15,
-            child: BackgroundCircle(size: 500, color: AppColor.backgroundYellow),
+            child: BackgroundCircle(
+              size: 500,
+              color: AppColor.backgroundYellow,
+            ),
           ),
           Positioned(
             top: -300,
@@ -204,7 +189,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Positioned(
             top: -200,
             left: -50,
-            child: const BackgroundCircle(size: 400, color: Colors.transparent, hasBorder: true),
+            child: const BackgroundCircle(
+              size: 400,
+              color: Colors.transparent,
+              hasBorder: true,
+            ),
           ),
 
           //app images and name
@@ -218,7 +207,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color:AppColor.backgroundBlue,
+                    color: AppColor.backgroundBlue,
                   ),
 
                   child: Image.asset(
@@ -266,7 +255,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Positioned(
             bottom: -250,
             right: -180,
-            child: const BackgroundCircle(size: 580, color: Colors.transparent, hasBorder: true),
+            child: const BackgroundCircle(
+              size: 580,
+              color: Colors.transparent,
+              hasBorder: true,
+            ),
           ),
 
           // --- Page View ---
@@ -322,12 +315,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(APPResponsive.width(4)),
+                        borderRadius: BorderRadius.circular(
+                          APPResponsive.width(4),
+                        ),
                       ),
                       elevation: 0,
                     ),
                     child: Text(
-                      _currentPage == _pages.length - 1 ? "Login" : "Get Started",
+                      _currentPage == _pages.length - 1
+                          ? "Login"
+                          : "Get Started",
                       style: TextStyle(
                         fontSize: APPResponsive.width(4.5),
                         fontWeight: FontWeight.bold,
@@ -450,4 +447,3 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 //     );
 //   }
 // }
-

@@ -3,9 +3,7 @@ import 'package:madeforke_app/view/screens/alloferscreen/vochercard/vochercard.d
 import 'package:madeforke_app/view/screens/alloferscreen/vocherlist/vocherlist.dart';
 import '../../../model/vochermodel/vochermodel.dart';
 
-
 class AllOfferScreen extends StatelessWidget {
-
   const AllOfferScreen({super.key});
 
   @override
@@ -22,7 +20,7 @@ class AllOfferScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: Icon(Icons.shopping_cart, color: Colors.black),
-          )
+          ),
         ],
       ),
 
@@ -31,7 +29,6 @@ class AllOfferScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // 🔥 Top Banner
             Container(
               height: 140,
@@ -47,11 +44,14 @@ class AllOfferScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Make Your First\n Order Here\n 23",
-                      style: TextStyle(color: Colors.white, fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Spacer(),
-                    Image(image: AssetImage('assets/splash_Icon/Logo.png'))
+                    Image(image: AssetImage('assets/splash_Icon/Logo.png')),
                   ],
                 ),
               ),
@@ -81,12 +81,14 @@ class AllOfferScreen extends StatelessWidget {
                         ),
                         Text(
                           "50% All Asian Foodie",
-                          style: TextStyle(color: Colors.white, fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),
@@ -94,25 +96,25 @@ class AllOfferScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            const Text("Vouchers",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              "Vouchers",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
 
             const SizedBox(height: 10),
 
             // 🔽 Voucher List
             GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount
-                (crossAxisCount: 2,
-              crossAxisSpacing: 10
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
               ),
 
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: VoucherData.vouchers.length,
               itemBuilder: (context, index) {
-                return VoucherCard(
-                  voucher: VoucherData.vouchers[index],
-                );
+                return VoucherCard(voucher: VoucherData.vouchers[index]);
               },
             ),
           ],
@@ -120,5 +122,4 @@ class AllOfferScreen extends StatelessWidget {
       ),
     );
   }
-
 }

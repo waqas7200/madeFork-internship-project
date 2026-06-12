@@ -1,18 +1,46 @@
+import 'dart:async';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../model/nerabyresturentModel/nearbyresturntModl.dart';
 
-
-class NearbyController extends GetxController {
+class NearbyController extends GetxController with WidgetsBindingObserver {
   var nearbyRestaurants = <RestaurantModel>[].obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
+  StreamSubscription<ServiceStatus>? _serviceStatusSubscription;
 
   @override
   void onInit() {
     super.onInit();
+    WidgetsBinding.instance.addObserver(this);
     fetchNearbyRestaurants();
+    _listenToLocationService();
+  }
+
+  void _listenToLocationService() {
+    _serviceStatusSubscription = Geolocator.getServiceStatusStream().listen((
+      ServiceStatus status,
+    ) {
+      if (status == ServiceStatus.enabled) {
+        fetchNearbyRestaurants();
+      }
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      fetchNearbyRestaurants();
+    }
+  }
+
+  @override
+  void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _serviceStatusSubscription?.cancel();
+    super.onClose();
   }
 
   Future<void> fetchNearbyRestaurants() async {
@@ -41,15 +69,18 @@ class NearbyController extends GetxController {
       }
 
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.high,
+      );
 
       // 2. Fetch Restaurants from Supabase
-      final response = await Supabase.instance.client.from('restaurants').select();
-      
+      final response = await Supabase.instance.client
+          .from('restaurants')
+          .select();
+
       List<RestaurantModel> tempRestaurants = [];
 
       for (var rest in response) {
-        dynamic locField = rest['location']; 
+        dynamic locField = rest['location'];
         double? rLat;
         double? rLng;
 
@@ -58,7 +89,8 @@ class NearbyController extends GetxController {
           try {
             if (locField is Map) {
               // PostGIS, JSON map, or profile coordinates format
-              if (locField['latitude'] != null && locField['longitude'] != null) {
+              if (locField['latitude'] != null &&
+                  locField['longitude'] != null) {
                 rLat = (locField['latitude'] as num).toDouble();
                 rLng = (locField['longitude'] as num).toDouble();
               } else if (locField['coordinates'] != null) {
@@ -78,9 +110,15 @@ class NearbyController extends GetxController {
             if (rLat != null && rLng != null) {
               // Calculate distance in meters
               double distanceInMeters = Geolocator.distanceBetween(
-                  position.latitude, position.longitude, rLat, rLng);
+                position.latitude,
+                position.longitude,
+                rLat,
+                rLng,
+              );
 
-              tempRestaurants.add(RestaurantModel.fromJson(rest, distanceInMeters));
+              tempRestaurants.add(
+                RestaurantModel.fromJson(rest, distanceInMeters),
+              );
             }
           } catch (e) {
             print("Error parsing location for restaurant: $e");
@@ -89,7 +127,9 @@ class NearbyController extends GetxController {
       }
 
       // Sort by closest distance
-      tempRestaurants.sort((a, b) => a.distanceInMeters.compareTo(b.distanceInMeters));
+      tempRestaurants.sort(
+        (a, b) => a.distanceInMeters.compareTo(b.distanceInMeters),
+      );
 
       // Compare lists to avoid unnecessary UI redraws
       bool hasChanged = false;

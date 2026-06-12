@@ -1,4 +1,3 @@
-
 // ========== PAGE 1 ==========
 import 'dart:ui';
 
@@ -26,11 +25,12 @@ class OnboardingPage1 extends StatelessWidget {
               width: APPResponsive.width(50),
               height: APPResponsive.width(50),
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/onbrding-screen-pics/img.png')),
+                image: DecorationImage(
+                  image: AssetImage('assets/onbrding-screen-pics/img.png'),
+                ),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(APPResponsive.width(8)),
               ),
-              
             ),
           ),
 
@@ -67,22 +67,20 @@ class OnboardingPage2 extends StatelessWidget {
           const Spacer(flex: 3),
 
           // Image / Illustration
-
           Transform.rotate(
             angle: -0.35, // radian mein — thoda sa tilt
             child: Container(
               width: APPResponsive.width(50),
               height: APPResponsive.width(50),
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/onbrding-screen-pics/img.png')),
+                image: DecorationImage(
+                  image: AssetImage('assets/onbrding-screen-pics/img.png'),
+                ),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(APPResponsive.width(8)),
               ),
-
             ),
           ),
-
-
 
           const Spacer(),
 
@@ -123,20 +121,14 @@ class OnboardingPage3 extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(APPResponsive.width(8)),
-              ),child: const Icon(
-              Icons.delivery_dining_rounded,
-              size: 80,
-              color: Colors.white,
-            ),
-
+              ),
+              child: const Icon(
+                Icons.delivery_dining_rounded,
+                size: 80,
+                color: Colors.white,
+              ),
             ),
           ),
-
-
-
-
-
-
 
           const Spacer(),
 
@@ -149,7 +141,6 @@ class OnboardingPage3 extends StatelessWidget {
               color: AppColor.textBlack,
             ),
           ),
-
 
           const Spacer(flex: 2),
         ],

@@ -1,0 +1,1012 @@
+// ─────────────────────────────────────────────
+//  ORDER DETAIL SCREEN WITH LIVE TIMELINE
+// ─────────────────────────────────────────────
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../controller/order_tracking_controller/order_tracking_controller.dart';
+import '../../../../model/order_tracking_model/order_tracking_model.dart';
+import '../../../component/custom_home_appbar.dart';
+import '../../../component/custom_background/custom_background.dart';
+import '../../../utils/costsColors/constColors.dart';
+import '../../trackingorderscreen/trackingorderscreen.dart';
+import '../../../component/custom_loading_widget.dart';
+
+class OrderDetailScreen extends StatefulWidget {
+  const OrderDetailScreen({super.key, required this.order});
+  final OrderTrackingModel order;
+
+  @override
+  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
+}
+
+class _OrderDetailScreenState extends State<OrderDetailScreen> {
+  late final OrderTrackingController _ctrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = Get.find<OrderTrackingController>();
+    _ctrl.subscribeToOrder(widget.order.id);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.cancelOrderSubscription();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              Obx(() {
+                final order = _ctrl.activeOrder.value ?? widget.order;
+                return CustomHomeAppBar(
+                  showBackButton: true,
+                  titleLine1: 'Order',
+                  titleLine2: 'Details',
+                  trailing: _StatusChip(status: order.status),
+                );
+              }),
+              Expanded(
+                child: Obx(() {
+                  final order = _ctrl.activeOrder.value ?? widget.order;
+                  return ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      // ── Order Info Card ───────────────────────────────────
+                      _InfoCard(order: order),
+                      const SizedBox(height: 14),
+
+                      // ── Items Card ────────────────────────────────────────
+                      if (order.items.isNotEmpty) ...[
+                        _ItemsCard(items: order.items),
+                        const SizedBox(height: 14),
+                      ],
+
+                      // ── Status Specific Section ───────────────────────────
+                      _StatusSectionCard(order: order),
+                      const SizedBox(height: 14),
+
+                      // ── Timeline ──────────────────────────────────────────
+                      _TimelineCard(order: order),
+                      const SizedBox(height: 30),
+
+                      Builder(
+                        builder: (context) {
+                          final canTrack =
+                              order.status == OrderStatus.dispatched ||
+                              order.status == OrderStatus.delivered;
+
+                          return SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed: canTrack
+                                  ? () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrackOrderScreen(),
+                                        ),
+                                      );
+                                    }
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.backgroundBlue,
+                                disabledBackgroundColor: Colors.grey.shade300,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                "Track Order",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: canTrack
+                                      ? Colors.white
+                                      : Colors.grey.shade500,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  );
+                }),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Status chip ──────────────────────────────────────────────────────────────
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.status});
+  final OrderStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = _statusColor(status);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 5),
+          Text(
+            status.label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _statusColor(OrderStatus s) {
+    switch (s) {
+      case OrderStatus.pending:
+        return Colors.orange;
+      case OrderStatus.accepted:
+        return const Color(0xFF00897B);
+      case OrderStatus.rejected:
+        return Colors.red;
+      case OrderStatus.onHold:
+        return Colors.deepOrange;
+      case OrderStatus.preparing:
+        return Colors.blue;
+      case OrderStatus.ready:
+        return Colors.indigo;
+      case OrderStatus.dispatched:
+        return Colors.purple;
+      case OrderStatus.delivered:
+        return const Color(0xFF2E7D32);
+      default:
+        return Colors.grey;
+    }
+  }
+}
+
+// ─── Info card ────────────────────────────────────────────────────────────────
+class _InfoCard extends StatelessWidget {
+  const _InfoCard({required this.order});
+  final OrderTrackingModel order;
+
+  @override
+  Widget build(BuildContext context) {
+    final date = _fmt(order.createdAt);
+
+    return _Card(
+      child: Column(
+        children: [
+          _row(
+            Icons.receipt_long_rounded,
+            'Order ID',
+            '#${order.id.substring(0, 8).toUpperCase()}',
+          ),
+          _divider(),
+          _row(Icons.storefront_rounded, 'Restaurant', order.restaurantName),
+          _divider(),
+          _row(Icons.location_on_rounded, 'Delivery To', order.address),
+          _divider(),
+          _row(Icons.calendar_today_rounded, 'Order Date', date.date),
+          _divider(),
+          _row(Icons.access_time_rounded, 'Order Time', date.time),
+          _divider(),
+          _row(Icons.payment_rounded, 'Payment', order.paymentMethod),
+          _divider(),
+          _row(
+            Icons.attach_money_rounded,
+            'Total',
+            'Rs. ${order.totalAmount.toStringAsFixed(0)}',
+            valueColor: const Color(0xFF00897B),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(IconData icon, String label, String value, {Color? valueColor}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: const Color(0xFF00897B)),
+          const SizedBox(width: 12),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.grey,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const Spacer(),
+          Flexible(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: valueColor ?? Colors.black87,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _divider() => const Divider(height: 1, color: Color(0xFFF0F0F0));
+
+  _DateTimePair _fmt(String iso) {
+    try {
+      final dt = DateTime.parse(iso).toLocal();
+      return _DateTimePair(
+        date: DateFormat('dd MMM yyyy').format(dt),
+        time: DateFormat('hh:mm a').format(dt),
+      );
+    } catch (_) {
+      return _DateTimePair(date: '—', time: '—');
+    }
+  }
+}
+
+class _DateTimePair {
+  final String date, time;
+  const _DateTimePair({required this.date, required this.time});
+}
+
+// ─── Items card ───────────────────────────────────────────────────────────────
+class _ItemsCard extends StatelessWidget {
+  const _ItemsCard({required this.items});
+  final List<OrderItemLine> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return _Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Order Items',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                children: [
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF00897B).withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Icon(
+                      Icons.fastfood_rounded,
+                      size: 16,
+                      color: Color(0xFF00897B),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item.productName,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'x${item.quantity}',
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Rs. ${item.price.toStringAsFixed(0)}',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF00897B),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Status-specific section card ────────────────────────────────────────────
+class _StatusSectionCard extends StatelessWidget {
+  const _StatusSectionCard({required this.order});
+  final OrderTrackingModel order;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = order.status;
+
+    // Rejected / On Hold / Pending → show plain notice
+    if (s == OrderStatus.rejected ||
+        s == OrderStatus.onHold ||
+        s == OrderStatus.pending) {
+      return _Card(
+        child: _Notice(
+          icon: s == OrderStatus.rejected
+              ? Icons.cancel_rounded
+              : Icons.schedule_rounded,
+          color: s == OrderStatus.rejected ? Colors.red : Colors.orange,
+          title: s == OrderStatus.rejected ? 'Order Rejected' : 'Order Pending',
+          message: s == OrderStatus.rejected
+              ? 'Sorry, this order was rejected by the restaurant.'
+              : 'Your order is waiting for restaurant confirmation.',
+        ),
+      );
+    }
+
+    // Delivered → review section
+    if (s == OrderStatus.delivered) {
+      return _ReviewCard(order: order);
+    }
+
+    // Accepted / Preparing / Ready → progress indicator
+    if (s == OrderStatus.accepted ||
+        s == OrderStatus.preparing ||
+        s == OrderStatus.ready) {
+      return _Card(
+        child: _Notice(
+          icon: Icons.restaurant_rounded,
+          color: Colors.blue,
+          title: 'Order In Progress',
+          message: 'The restaurant is preparing your order. Please wait.',
+        ),
+      );
+    }
+
+    // Dispatched → out for delivery
+    if (s == OrderStatus.dispatched) {
+      return _Card(
+        child: _Notice(
+          icon: Icons.delivery_dining_rounded,
+          color: Colors.purple,
+          title: 'Out for Delivery',
+          message: 'Your order is on its way! The delivery rider is en route.',
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+}
+
+class _Notice extends StatelessWidget {
+  const _Notice({
+    required this.icon,
+    required this.color,
+    required this.title,
+    required this.message,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: color, size: 24),
+        ),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: color,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                message,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Timeline card ────────────────────────────────────────────────────────────
+class _TimelineCard extends StatelessWidget {
+  const _TimelineCard({required this.order});
+  final OrderTrackingModel order;
+
+  static const List<OrderStatus> _flow = [
+    OrderStatus.pending,
+    OrderStatus.accepted,
+    OrderStatus.preparing,
+    OrderStatus.ready,
+    OrderStatus.dispatched,
+    OrderStatus.delivered,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final currentIdx = order.currentStepIndex;
+    final isTerminal =
+        order.status == OrderStatus.rejected ||
+        order.status == OrderStatus.onHold;
+
+    return _Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Order Timeline',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ...List.generate(_flow.length, (i) {
+            final s = _flow[i];
+            final isDone = !isTerminal && currentIdx >= i;
+            final isCurrent = !isTerminal && currentIdx == i;
+            final isLast = i == _flow.length - 1;
+            return _TimelineStep(
+              status: s,
+              isDone: isDone,
+              isCurrent: isCurrent,
+              isLast: isLast,
+            );
+          }),
+          if (isTerminal) ...[
+            const SizedBox(height: 8),
+            _TerminalStep(status: order.status),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _TimelineStep extends StatelessWidget {
+  const _TimelineStep({
+    required this.status,
+    required this.isDone,
+    required this.isCurrent,
+    required this.isLast,
+  });
+
+  final OrderStatus status;
+  final bool isDone;
+  final bool isCurrent;
+  final bool isLast;
+
+  @override
+  Widget build(BuildContext context) {
+    final dotColor = isDone ? const Color(0xFF00897B) : const Color(0xFFE0E0E0);
+    final lineColor = isDone && !isLast
+        ? const Color(0xFF00897B)
+        : const Color(0xFFE0E0E0);
+    final textColor = isDone ? Colors.black87 : Colors.grey.shade400;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Dot + line column
+        SizedBox(
+          width: 28,
+          child: Column(
+            children: [
+              // Dot
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 400),
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: isDone ? dotColor : Colors.white,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: dotColor, width: isCurrent ? 3 : 2),
+                  boxShadow: isCurrent
+                      ? [
+                          BoxShadow(
+                            color: const Color(
+                              0xFF00897B,
+                            ).withValues(alpha: 0.3),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          ),
+                        ]
+                      : [],
+                ),
+                child: isDone
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 14,
+                        color: Colors.white,
+                      )
+                    : isCurrent
+                    ? Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF00897B),
+                          shape: BoxShape.circle,
+                        ),
+                      )
+                    : null,
+              ),
+
+              // Connector line
+              if (!isLast)
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 400),
+                  width: 2,
+                  height: 36,
+                  color: lineColor,
+                ),
+            ],
+          ),
+        ),
+
+        const SizedBox(width: 14),
+
+        // Label
+        Padding(
+          padding: const EdgeInsets.only(top: 3),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                status.label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w500,
+                  color: isCurrent ? const Color(0xFF00897B) : textColor,
+                ),
+              ),
+              if (isCurrent)
+                const Padding(
+                  padding: EdgeInsets.only(top: 2),
+                  child: Text(
+                    'Current Status',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF00897B),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              if (!isLast) const SizedBox(height: 36),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TerminalStep extends StatelessWidget {
+  const _TerminalStep({required this.status});
+  final OrderStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = status == OrderStatus.rejected
+        ? Colors.red
+        : Colors.deepOrange;
+    return Row(
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          child: const Icon(Icons.close_rounded, size: 14, color: Colors.white),
+        ),
+        const SizedBox(width: 14),
+        Text(
+          status.label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: color,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Reusable white card ──────────────────────────────────────────────────────
+class _Card extends StatelessWidget {
+  const _Card({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+// ─── Review Card ──────────────────────────────────────────────────────────────
+class _ReviewCard extends StatefulWidget {
+  const _ReviewCard({required this.order});
+  final OrderTrackingModel order;
+
+  @override
+  State<_ReviewCard> createState() => _ReviewCardState();
+}
+
+class _ReviewCardState extends State<_ReviewCard> {
+  late final OrderTrackingController _ctrl;
+  int _selectedRating = 0;
+  bool _submitted = false;
+  bool _loading = false;
+  bool _alreadyReviewed = false;
+  bool _checking = true;
+  final TextEditingController _commentCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = Get.find<OrderTrackingController>();
+    _checkReview();
+  }
+
+  @override
+  void dispose() {
+    _commentCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _checkReview() async {
+    final already = await _ctrl.hasAlreadyReviewed(widget.order.id);
+    if (mounted)
+      setState(() {
+        _alreadyReviewed = already;
+        _checking = false;
+      });
+  }
+
+  Future<void> _submit() async {
+    if (_selectedRating == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a star rating first.'),
+          backgroundColor: Colors.orange,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+    setState(() => _loading = true);
+    final ok = await _ctrl.submitReview(
+      orderId: widget.order.id,
+      restaurantId: widget.order.restaurantId,
+      rating: _selectedRating,
+      comment: _commentCtrl.text,
+    );
+    if (mounted) {
+      setState(() {
+        _loading = false;
+        _submitted = ok;
+        _alreadyReviewed = ok;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            ok
+                ? 'Review submitted! Thank you 🎉'
+                : 'Failed to submit. Try again.',
+          ),
+          backgroundColor: ok ? const Color(0xFF2E7D32) : Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // ── Delivered success header ──────────────────────────────────────
+    final header = Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: const Color(0xFF2E7D32).withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(
+            Icons.check_circle_rounded,
+            color: Color(0xFF2E7D32),
+            size: 24,
+          ),
+        ),
+        const SizedBox(width: 14),
+        const Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Order Delivered!',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: Color(0xFF2E7D32),
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Your order has been delivered successfully. Enjoy your meal!',
+                style: TextStyle(fontSize: 13, color: Colors.grey, height: 1.4),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    // ── Already reviewed ─────────────────────────────────────────────
+    if (_alreadyReviewed || _submitted) {
+      return _Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            header,
+            const SizedBox(height: 16),
+            const Divider(height: 1, color: Color(0xFFF0F0F0)),
+            const SizedBox(height: 14),
+            Row(
+              children: [
+                const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
+                const SizedBox(width: 6),
+                Text(
+                  _selectedRating > 0
+                      ? 'You rated $_selectedRating/5 ⭐'
+                      : 'You have already reviewed this order ✓',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2E7D32),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    // ── Loading check ─────────────────────────────────────────────────
+    if (_checking) {
+      return _Card(
+        child: Column(
+          children: [
+            header,
+            const SizedBox(height: 16),
+            const Center(child: CustomLoadingWidget()),
+          ],
+        ),
+      );
+    }
+
+    // ── Review form ───────────────────────────────────────────────────
+    return _Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          header,
+          const SizedBox(height: 16),
+          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+          const SizedBox(height: 14),
+
+          // Title
+          const Text(
+            'Rate Your Experience',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'How was your order from ${widget.order.restaurantName}?',
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+          const SizedBox(height: 14),
+
+          // Stars
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(5, (i) {
+              final star = i + 1;
+              return GestureDetector(
+                onTap: () => setState(() => _selectedRating = star),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Icon(
+                    _selectedRating >= star
+                        ? Icons.star_rounded
+                        : Icons.star_outline_rounded,
+                    color: _selectedRating >= star
+                        ? Colors.amber
+                        : Colors.grey.shade300,
+                    size: 38,
+                  ),
+                ),
+              );
+            }),
+          ),
+          if (_selectedRating > 0) ...[
+            const SizedBox(height: 6),
+            Center(
+              child: Text(
+                [
+                  '',
+                  'Poor 😞',
+                  'Fair 😐',
+                  'Good 🙂',
+                  'Great 😊',
+                  'Excellent 🤩',
+                ][_selectedRating],
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.amber.shade700,
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(height: 14),
+
+          // Comment box
+          TextField(
+            controller: _commentCtrl,
+            maxLines: 3,
+            maxLength: 200,
+            decoration: InputDecoration(
+              hintText: 'Write your feedback (optional)…',
+              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+              filled: true,
+              fillColor: const Color(0xFFF9F9F9),
+              counterStyle: const TextStyle(fontSize: 10),
+              contentPadding: const EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade200),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(
+                  color: Color(0xFF00897B),
+                  width: 1.5,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade200),
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+
+          // Submit button
+          SizedBox(
+            width: double.infinity,
+            height: 46,
+            child: ElevatedButton.icon(
+              onPressed: _loading ? null : _submit,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF00897B),
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.grey.shade300,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 0,
+              ),
+              icon: _loading
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Icon(Icons.send_rounded, size: 18),
+              label: Text(
+                _loading ? 'Submitting…' : 'Submit Review',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

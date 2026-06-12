@@ -1,4 +1,4 @@
-class catagery{
+class catagery {
   final String id;
   final String name;
   final String store;
@@ -18,7 +18,8 @@ class catagery{
     required this.image,
     required this.description,
     required this.rating,
-    required this.reviews, required this.location,
+    required this.reviews,
+    required this.location,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,7 +45,8 @@ class catagery{
       image: map['image'] as String,
       description: map['description'] as String,
       rating: map['rating'] as double,
-      reviews: map['reviews'] as int, location: '',
+      reviews: map['reviews'] as int,
+      location: '',
     );
   }
 

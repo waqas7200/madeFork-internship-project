@@ -22,9 +22,8 @@ class APPResponsive {
 
     return size;
   }
-
-
 }
+
 extension ResponsiveContext on BuildContext {
   double rH(double percent) => APPResponsive.height(percent);
   double rW(double percent) => APPResponsive.width(percent);

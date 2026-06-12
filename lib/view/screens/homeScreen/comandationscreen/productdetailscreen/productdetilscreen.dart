@@ -679,11 +679,13 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../model/addtocartmodel/addtocarmodel.dart';
 import '../../../../../model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../../../../model/restaurantProductModel/restaurant_product_model.dart';
 import '../../../../component/customSnackbar/customSnakbar.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../../../utils/costsColors/constColors.dart';
 import '../../../../utils/responsiveClass/responosiveC;ass.dart';
 import '../../../bottomNavigationBar/bottomNavgationBar.dart';
@@ -722,8 +724,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void _runFlyAnimation() {
-    final RenderBox? imageBox = _imageKey.currentContext?.findRenderObject() as RenderBox?;
-    final RenderBox? cartBox = _cartKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? imageBox =
+        _imageKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? cartBox =
+        _cartKey.currentContext?.findRenderObject() as RenderBox?;
 
     if (imageBox == null || cartBox == null) return;
 
@@ -747,10 +751,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           );
 
           Future.delayed(const Duration(milliseconds: 300), () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyOrderScreen()),
-            );
+            Get.toNamed(AppRoutes.myOrder);
           });
         },
       ),
@@ -766,10 +767,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     required int quantity,
   }) {
     // 1. Check karein agar cart empty nahi hai aur kisi doosre restaurant ka item add ho raha hai
-    if (cartItems.isNotEmpty && cartItems.first.restaurantId != product.restaurantId) {
+    if (cartItems.isNotEmpty &&
+        cartItems.first.restaurantId != product.restaurantId) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Alert: You can only order from one restaurant at a time!"),
+          content: Text(
+            "Alert: You can only order from one restaurant at a time!",
+          ),
           backgroundColor: Colors.orange,
         ),
       );
@@ -779,7 +783,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     // 2. Check karein agar same product aur same size pehle se cart me hai
     final existingIndex = cartItems.indexWhere(
-          (item) => item.id == product.id && item.size == selectedSize,
+      (item) => item.id == product.id && item.size == selectedSize,
     );
 
     if (existingIndex >= 0) {
@@ -797,7 +801,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         price: cleanPrice.isEmpty ? product.price : cleanPrice,
         image: product.image,
         size: selectedSize.isEmpty ? 'Standard' : selectedSize,
-        restaurantId: product.restaurantId ?? '', // ✅ Link dynamic restaurant ID parameter
+        restaurantId:
+            product.restaurantId ??
+            '', // ✅ Link dynamic restaurant ID parameter
         quantity: quantity,
       );
 
@@ -815,7 +821,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       if (_currentProduct.isFavorite) {
         _currentProduct.isFavorite = false;
-        globalFavoriteItems.removeWhere((item) => item.id == _currentProduct.id);
+        globalFavoriteItems.removeWhere(
+          (item) => item.id == _currentProduct.id,
+        );
         CustomSnackBar.show(context, 'Removed from favorites');
       } else {
         _currentProduct.isFavorite = true;
@@ -858,7 +866,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => Container(
                         color: Colors.grey.shade200,
-                        child: Icon(Icons.image_not_supported, size: context.rW(10), color: Colors.grey),
+                        child: Icon(
+                          Icons.image_not_supported,
+                          size: context.rW(10),
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -898,22 +910,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   Text(
                                     _currentProduct.name,
                                     style: TextStyle(
-                                      fontSize: APPResponsive.fs(5, min: 18, max: 24),
+                                      fontSize: APPResponsive.fs(
+                                        5,
+                                        min: 18,
+                                        max: 24,
+                                      ),
                                       fontWeight: FontWeight.w800,
                                       color: Colors.black87,
                                     ),
                                   ),
                                   SizedBox(height: context.rH(0.8)),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: context.rW(2.5), vertical: context.rH(0.5)),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: context.rW(2.5),
+                                      vertical: context.rH(0.5),
+                                    ),
                                     decoration: BoxDecoration(
                                       color: const Color(0xFFF0F8F6),
-                                      borderRadius: BorderRadius.circular(context.rW(2)),
+                                      borderRadius: BorderRadius.circular(
+                                        context.rW(2),
+                                      ),
                                     ),
                                     child: Text(
                                       _currentProduct.store,
                                       style: TextStyle(
-                                        fontSize: APPResponsive.fs(2.8, min: 10, max: 13),
+                                        fontSize: APPResponsive.fs(
+                                          2.8,
+                                          min: 10,
+                                          max: 13,
+                                        ),
                                         color: const Color(0xFF00897B),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -927,25 +952,32 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               key: _cartKey,
                               clipBehavior: Clip.none,
                               children: [
-                                _buildCircleBtn(Icons.shopping_cart_outlined, () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => MyOrderScreen()),
-                                  );
-                                }),
+                                _buildCircleBtn(
+                                  Icons.shopping_cart_outlined,
+                                  () {
+                                    Get.toNamed(AppRoutes.myOrder);
+                                  },
+                                ),
                               ],
                             ),
                             SizedBox(width: context.rW(2)),
                             GestureDetector(
                               onTap: _toggleFavorite,
                               child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: context.rW(3), vertical: context.rH(1.2)),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: context.rW(3),
+                                  vertical: context.rH(1.2),
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFFF0F5),
-                                  borderRadius: BorderRadius.circular(context.rW(2.5)),
+                                  borderRadius: BorderRadius.circular(
+                                    context.rW(2.5),
+                                  ),
                                 ),
                                 child: Icon(
-                                  _currentProduct.isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  _currentProduct.isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
                                   color: Colors.red,
                                   size: context.rW(5.5),
                                 ),
@@ -968,15 +1000,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ),
                             SizedBox(width: context.rW(2)),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: context.rW(2), vertical: context.rH(0.5)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.rW(2),
+                                vertical: context.rH(0.5),
+                              ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFFEBEE),
-                                borderRadius: BorderRadius.circular(context.rW(1.5)),
+                                borderRadius: BorderRadius.circular(
+                                  context.rW(1.5),
+                                ),
                               ),
                               child: Text(
                                 'Special',
                                 style: TextStyle(
-                                  fontSize: APPResponsive.fs(2.2, min: 8, max: 10),
+                                  fontSize: APPResponsive.fs(
+                                    2.2,
+                                    min: 8,
+                                    max: 10,
+                                  ),
                                   color: const Color(0xFFE53935),
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -990,22 +1031,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: context.rW(2.5), vertical: context.rH(0.6)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.rW(2.5),
+                                vertical: context.rH(0.6),
+                              ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFFA500),
-                                borderRadius: BorderRadius.circular(context.rW(2)),
+                                borderRadius: BorderRadius.circular(
+                                  context.rW(2),
+                                ),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.star_rounded, color: Colors.white, size: context.rW(3.5)),
+                                  Icon(
+                                    Icons.star_rounded,
+                                    color: Colors.white,
+                                    size: context.rW(3.5),
+                                  ),
                                   SizedBox(width: context.rW(0.8)),
                                   Text(
                                     _currentProduct.rating.toString(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: APPResponsive.fs(2.8, min: 10, max: 13),
+                                      fontSize: APPResponsive.fs(
+                                        2.8,
+                                        min: 10,
+                                        max: 13,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -1015,7 +1069,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Text(
                               '(${_currentProduct.reviews} reviews)',
                               style: TextStyle(
-                                fontSize: APPResponsive.fs(2.8, min: 10, max: 13),
+                                fontSize: APPResponsive.fs(
+                                  2.8,
+                                  min: 10,
+                                  max: 13,
+                                ),
                                 color: Colors.grey.shade600,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -1040,13 +1098,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: List.generate(
-                              _currentProduct.sizes.isNotEmpty ? _currentProduct.sizes.length : 4,
-                                  (index) {
-                                final sizes = _currentProduct.sizes.isNotEmpty ? _currentProduct.sizes : ['S', 'M', 'L', 'XL'];
+                              _currentProduct.sizes.isNotEmpty
+                                  ? _currentProduct.sizes.length
+                                  : 4,
+                              (index) {
+                                final sizes = _currentProduct.sizes.isNotEmpty
+                                    ? _currentProduct.sizes
+                                    : ['S', 'M', 'L', 'XL'];
                                 final size = sizes[index];
                                 final isSelected = selectedSize == size;
                                 return Padding(
-                                  padding: EdgeInsets.only(right: context.rW(2)),
+                                  padding: EdgeInsets.only(
+                                    right: context.rW(2),
+                                  ),
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
@@ -1054,24 +1118,53 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       });
                                     },
                                     child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 300),
-                                      padding: EdgeInsets.symmetric(horizontal: context.rW(4), vertical: context.rH(1.5)),
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: context.rW(4),
+                                        vertical: context.rH(1.5),
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: isSelected ? const Color(0xFF00897B) : Colors.grey.shade100,
-                                        borderRadius: BorderRadius.circular(context.rW(2.5)),
+                                        color: isSelected
+                                            ? const Color(0xFF00897B)
+                                            : Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(
+                                          context.rW(2.5),
+                                        ),
                                         border: isSelected
-                                            ? Border.all(color: const Color(0xFF00897B), width: 2)
-                                            : Border.all(color: Colors.grey.shade300, width: 1),
+                                            ? Border.all(
+                                                color: const Color(0xFF00897B),
+                                                width: 2,
+                                              )
+                                            : Border.all(
+                                                color: Colors.grey.shade300,
+                                                width: 1,
+                                              ),
                                         boxShadow: isSelected
-                                            ? [BoxShadow(color: const Color(0xFF00897B).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))]
+                                            ? [
+                                                BoxShadow(
+                                                  color: const Color(
+                                                    0xFF00897B,
+                                                  ).withOpacity(0.3),
+                                                  blurRadius: 8,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ]
                                             : [],
                                       ),
                                       child: Text(
                                         size,
                                         style: TextStyle(
-                                          fontSize: APPResponsive.fs(3, min: 11, max: 14),
+                                          fontSize: APPResponsive.fs(
+                                            3,
+                                            min: 11,
+                                            max: 14,
+                                          ),
                                           fontWeight: FontWeight.w700,
-                                          color: isSelected ? Colors.white : Colors.grey.shade700,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : Colors.grey.shade700,
                                         ),
                                       ),
                                     ),
@@ -1120,7 +1213,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   Text(
                                     'items :',
                                     style: TextStyle(
-                                      fontSize: APPResponsive.fs(3.2, min: 11, max: 14),
+                                      fontSize: APPResponsive.fs(
+                                        3.2,
+                                        min: 11,
+                                        max: 14,
+                                      ),
                                       fontWeight: FontWeight.w700,
                                       color: Colors.black87,
                                     ),
@@ -1129,8 +1226,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: AppColor.backgroundBlue,
-                                      border: Border.all(color: AppColor.backgroundBlue),
-                                      borderRadius: BorderRadius.circular(context.rW(2)),
+                                      border: Border.all(
+                                        color: AppColor.backgroundBlue,
+                                      ),
+                                      borderRadius: BorderRadius.circular(
+                                        context.rW(2),
+                                      ),
                                     ),
                                     child: Row(
                                       children: [
@@ -1141,16 +1242,29 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             }
                                           },
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: context.rW(2.5), vertical: context.rH(0.8)),
-                                            child: Icon(Icons.remove_rounded, color: Colors.white, size: context.rW(4.5)),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: context.rW(2.5),
+                                              vertical: context.rH(0.8),
+                                            ),
+                                            child: Icon(
+                                              Icons.remove_rounded,
+                                              color: Colors.white,
+                                              size: context.rW(4.5),
+                                            ),
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.symmetric(horizontal: context.rW(3.5)),
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: context.rW(3.5),
+                                          ),
                                           child: Text(
                                             quantity.toString(),
                                             style: TextStyle(
-                                              fontSize: APPResponsive.fs(3.5, min: 13, max: 16),
+                                              fontSize: APPResponsive.fs(
+                                                3.5,
+                                                min: 13,
+                                                max: 16,
+                                              ),
                                               fontWeight: FontWeight.w800,
                                               color: Colors.white,
                                             ),
@@ -1161,8 +1275,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             setState(() => quantity++);
                                           },
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: context.rW(2.5), vertical: context.rH(0.8)),
-                                            child: Icon(Icons.add_rounded, color: Colors.white, size: context.rW(4.5)),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: context.rW(2.5),
+                                              vertical: context.rH(0.8),
+                                            ),
+                                            child: Icon(
+                                              Icons.add_rounded,
+                                              color: Colors.white,
+                                              size: context.rW(4.5),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -1182,11 +1303,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       '$quantity × ${_currentProduct.name} (${selectedSize ?? 'size'}) added to cart',
                                     );
                                   },
-                                  icon: Icon(Icons.shopping_cart_rounded, size: context.rW(5.5)),
+                                  icon: Icon(
+                                    Icons.shopping_cart_rounded,
+                                    size: context.rW(5.5),
+                                  ),
                                   label: Text(
                                     'Add to Cart',
                                     style: TextStyle(
-                                      fontSize: APPResponsive.fs(3.3, min: 12, max: 15),
+                                      fontSize: APPResponsive.fs(
+                                        3.3,
+                                        min: 12,
+                                        max: 15,
+                                      ),
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -1195,7 +1323,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     foregroundColor: Colors.white,
                                     elevation: 4,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(context.rW(2.5)),
+                                      borderRadius: BorderRadius.circular(
+                                        context.rW(2.5),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1217,17 +1347,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             top: MediaQuery.of(context).padding.top + context.rH(1.5),
             left: context.rW(4),
             child: GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: () => Get.back(),
               child: Container(
                 padding: EdgeInsets.all(context.rW(2.5)),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 2)),
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                      offset: Offset(0, 2),
+                    ),
                   ],
                 ),
-                child: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87, size: context.rW(5.5)),
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.black87,
+                  size: context.rW(5.5),
+                ),
               ),
             ),
           ),
@@ -1251,5 +1389,3 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 }
-
-

@@ -8,7 +8,7 @@ class ProfileTile extends StatelessWidget {
   const ProfileTile({
     super.key,
     required this.icon,
-     this.iconColor=Colors.red,
+    this.iconColor = Colors.red,
     required this.title,
   });
 
@@ -22,9 +22,8 @@ class ProfileTile extends StatelessWidget {
           child: ListTile(
             contentPadding: EdgeInsets.all(6),
             leading: Icon(icon, color: iconColor),
-            title: Text(title,style: TextStyle(fontWeight: FontWeight.bold),),
+            title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-
           ),
         ),
       ),

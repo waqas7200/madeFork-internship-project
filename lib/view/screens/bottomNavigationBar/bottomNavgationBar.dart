@@ -817,23 +817,13 @@
 //   }
 // }
 
-
-
-import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../../component/customRecomandation/customRcomandaion.dart';
 import '../../component/custombottomnavigationbar/customnavigationbar.dart';
-import '../alloferscreen/allofferscren.dart';
 import '../homeScreen/HomeScreen.dart';
-import '../homeScreen/comandationscreen/productdetailscreen/favoritescreen/favoritescreen.dart';
 import '../paymentscreen/paymentscreen.dart';
-import '../rderhistory/orderhistory.dart';
+import '../orderhistoryscreen/order_history_screen.dart';
 import '../userprofilescreen+edit/userprofilescreen+edit.dart';
-
-
-
-
 import '../../utils/responsiveClass/responosiveC;ass.dart';
 
 class MainScreen extends StatefulWidget {
@@ -848,9 +838,9 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    OrderHistoryScreen(),
+    UserOrderHistoryScreen(), // ← Live orders from Supabase
     PaymentMethodScreen(),
-    ProfileScreen()
+    ProfileScreen(),
   ];
 
   @override
@@ -865,7 +855,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-
-
-

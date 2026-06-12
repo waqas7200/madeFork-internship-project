@@ -109,17 +109,15 @@
 //   }
 // }
 
-
-
 // ─────────────────────────────────────────────
 //  RECOMMENDATION CARD WITH HERO ANIMATION
 // ─────────────────────────────────────────────
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:madeforke_app/model/rerecomandatomproductModel/recomandatioprouductModel.dart';
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
-import '../../screens/homeScreen/comandationscreen/productdetailscreen/productdetilscreen.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 import '../../utils/responsiveClass/responosiveC;ass.dart';
-
 
 class RecommendationCard extends StatelessWidget {
   final Product item;
@@ -137,14 +135,7 @@ class RecommendationCard extends StatelessWidget {
     final btnH = context.rH(3.8).clamp(28.0, 42.0);
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetailScreen(product: item),
-          ),
-        );
-      },
+      onTap: () => Get.toNamed(AppRoutes.productDetail, arguments: item),
       child: Container(
         width: cardWidth,
         decoration: BoxDecoration(
@@ -163,14 +154,8 @@ class RecommendationCard extends StatelessWidget {
           children: [
             // Image with Hero Animation
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(product: item),
-                  ),
-                );
-              },
+              onTap: () =>
+                  Get.toNamed(AppRoutes.productDetail, arguments: item),
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(context.rW(3.5)),
@@ -266,8 +251,9 @@ class RecommendationCard extends StatelessWidget {
                   icon: Icon(Icons.add, size: context.rW(3.5).clamp(12, 18)),
                   label: Text(
                     'Add to cart',
-                    style:
-                    TextStyle(fontSize: APPResponsive.fs(2.7, min: 10, max: 13)),
+                    style: TextStyle(
+                      fontSize: APPResponsive.fs(2.7, min: 10, max: 13),
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF00897B),

@@ -16,9 +16,6 @@ class CatagerytScreen extends StatefulWidget {
 }
 
 class _CatagerytScreenState extends State<CatagerytScreen> {
-
-
-
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
@@ -109,26 +106,34 @@ class _CatagerytScreenState extends State<CatagerytScreen> {
       body: Stack(
         children: [
           // --- Background Circles (As it is) ---
-
-      Positioned(
-              top: -350,
-              right: -10,
-              child: BackgroundCircle(size: 500, color: AppColor.backgroundYellow),
+          Positioned(
+            top: -350,
+            right: -10,
+            child: BackgroundCircle(
+              size: 500,
+              color: AppColor.backgroundYellow,
             ),
-            Positioned(
-              top: -370,
-              left: -100,
-              child: BackgroundCircle(size: 460, color: Colors.yellow.shade700),
+          ),
+          Positioned(
+            top: -370,
+            left: -100,
+            child: BackgroundCircle(size: 460, color: Colors.yellow.shade700),
+          ),
+          Positioned(
+            top: -270,
+            left: -50,
+            child: const BackgroundCircle(
+              size: 400,
+              color: Colors.transparent,
+              hasBorder: true,
             ),
-            Positioned(
-              top: -270,
-              left: -50,
-              child: const BackgroundCircle(size: 400, color: Colors.transparent, hasBorder: true),
-            ),
+          ),
           // --- Main Content (Fix yahan hai) ---
-          Positioned.fill( // Expanded hata kar ye lagayein taake poori space milay
+          Positioned.fill(
+            // Expanded hata kar ye lagayein taake poori space milay
             child: SafeArea(
-              child: SingleChildScrollView( // Poori screen ko scrollable banayein
+              child: SingleChildScrollView(
+                // Poori screen ko scrollable banayein
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
@@ -140,18 +145,29 @@ class _CatagerytScreenState extends State<CatagerytScreen> {
                     SizedBox(height: context.rH(1.8)),
 
                     SizedBox(height: context.rH(1.8)),
-                    const SectionHeader(title: 'Recommendation', actionLabel: 'See All'),
+                    const SectionHeader(
+                      title: 'Recommendation',
+                      actionLabel: 'See All',
+                    ),
                     SizedBox(height: context.rH(1.2)),
 
                     const RecommendationList(),
 
                     SizedBox(height: context.rH(1.8)),
-                    const SectionHeader(title: 'Popular', actionLabel: 'See All'),
+                    const SectionHeader(
+                      title: 'Popular',
+                      actionLabel: 'See All',
+                    ),
                     // 4. Merchant List (ListView)
                     ListView.builder(
-                      shrinkWrap: true, // ZAROORI: Kyunki hum Column ke andar hain
-                      physics: const NeverScrollableScrollPhysics(), // Scroll parent handle karega
-                      padding: EdgeInsets.symmetric(horizontal: context.rW(5), vertical: context.rH(2)),
+                      shrinkWrap:
+                          true, // ZAROORI: Kyunki hum Column ke andar hain
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Scroll parent handle karega
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.rW(5),
+                        vertical: context.rH(2),
+                      ),
                       itemCount: 10, // Check karne ke liye count barha dein
                       itemBuilder: (context, index) {
                         return const catageryard();
@@ -167,10 +183,12 @@ class _CatagerytScreenState extends State<CatagerytScreen> {
     );
   }
 
-
   Widget _buildAppBar(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.rW(4), vertical: context.rH(1)),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.rW(4),
+        vertical: context.rH(1),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -188,11 +206,16 @@ class _CatagerytScreenState extends State<CatagerytScreen> {
           ),
           Row(
             children: [
-              Icon(Icons.shopping_cart_outlined, color: AppColor.backgroundBlue),
+              Icon(
+                Icons.shopping_cart_outlined,
+                color: AppColor.backgroundBlue,
+              ),
               SizedBox(width: context.rW(3)),
               CircleAvatar(
                 radius: context.rW(4),
-                backgroundImage: const NetworkImage('https://i.pravatar.cc/150?img=47'),
+                backgroundImage: const NetworkImage(
+                  'https://i.pravatar.cc/150?img=47',
+                ),
               ),
             ],
           ),
@@ -200,8 +223,6 @@ class _CatagerytScreenState extends State<CatagerytScreen> {
       ),
     );
   }
-
-
 }
 
 // --- Merchant Card Widget ---
@@ -224,14 +245,17 @@ class catageryard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Container(
                 width: context.rW(16), // Thora size barha diya design ke liye
                 height: context.rW(16),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200, // Image load hone se pehle ye dikhega
+                  color: Colors
+                      .grey
+                      .shade200, // Image load hone se pehle ye dikhega
                   borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Colors.grey.shade100), // Premium border
+                  border: Border.all(
+                    color: Colors.grey.shade100,
+                  ), // Premium border
                 ),
                 // ClipRRect use karein taake image corners ke bahar na nikalay
                 child: ClipRRect(
@@ -247,33 +271,54 @@ class catageryard extends StatelessWidget {
                   children: [
                     Text(
                       'StarBuckz',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: APPResponsive.fs(4)),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: APPResponsive.fs(4),
+                      ),
                     ),
-                    Text('Alaminos, Pang', style: TextStyle(color: Colors.grey, fontSize: APPResponsive.fs(3))),
-                    Text('18.00 km', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: APPResponsive.fs(3))),
-
+                    Text(
+                      'Alaminos, Pang',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: APPResponsive.fs(3),
+                      ),
+                    ),
+                    Text(
+                      '18.00 km',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: APPResponsive.fs(3),
+                      ),
+                    ),
                   ],
                 ),
               ),
               Column(
                 children: [
-
                   CircleAvatar(
                     radius: 12,
                     backgroundColor: Colors.orange.withOpacity(0.2),
-                    child: const Icon(Icons.bookmark, size: 18, color: Colors.orange),
+                    child: const Icon(
+                      Icons.bookmark,
+                      size: 18,
+                      color: Colors.orange,
+                    ),
                   ),
                   SizedBox(height: context.rW(3)),
-                  Text('price :200', style: TextStyle(fontSize: APPResponsive.fs(2.5), color: Colors.orange)),
+                  Text(
+                    'price :200',
+                    style: TextStyle(
+                      fontSize: APPResponsive.fs(2.5),
+                      color: Colors.orange,
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ],
       ),
     );
   }
-
-
-
 }
