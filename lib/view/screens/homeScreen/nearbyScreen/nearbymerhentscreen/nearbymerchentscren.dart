@@ -190,12 +190,20 @@ class _NearByMerchantScreenState extends State<NearByMerchantScreen> {
                 color: AppColor.backgroundBlue,
               ),
               SizedBox(width: context.rW(3)),
-              CircleAvatar(
-                radius: context.rW(4),
-                backgroundImage: const NetworkImage(
-                  'https://i.pravatar.cc/150?img=47',
-                ),
-              ),
+              Obx(() {
+                final authCtrl = Get.isRegistered<AuthController>() ? Get.find<AuthController>() : Get.put(AuthController());
+                final profileImage = authCtrl.currentUser.value?.profileImage;
+                return CircleAvatar(
+                  radius: context.rW(4),
+                  backgroundColor: Colors.grey.shade200,
+                  backgroundImage: profileImage != null && profileImage.isNotEmpty
+                      ? NetworkImage(profileImage)
+                      : null,
+                  child: profileImage == null || profileImage.isEmpty
+                      ? Icon(Icons.person, color: Colors.grey.shade400, size: context.rW(5))
+                      : null,
+                );
+              }),
             ],
           ),
         ],

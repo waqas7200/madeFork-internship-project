@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controller/auth_Cntroller/auth_Controller.dart';
 import '../bottomNavigationBar/bottomNavgationBar.dart';
 
 class TrackOrderScreen extends StatelessWidget {
@@ -25,13 +27,23 @@ class TrackOrderScreen extends StatelessWidget {
           },
         ),
         title: const Text("Track", style: TextStyle(color: Colors.black)),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              radius: 16,
-              backgroundImage: NetworkImage("https://i.pravatar.cc/150?img=3"),
-            ),
+            padding: const EdgeInsets.only(right: 16),
+            child: Obx(() {
+              final authCtrl = Get.isRegistered<AuthController>() ? Get.find<AuthController>() : Get.put(AuthController());
+              final profileImage = authCtrl.currentUser.value?.profileImage;
+              return CircleAvatar(
+                radius: 16,
+                backgroundColor: Colors.grey.shade200,
+                backgroundImage: profileImage != null && profileImage.isNotEmpty
+                    ? NetworkImage(profileImage)
+                    : null,
+                child: profileImage == null || profileImage.isEmpty
+                    ? Icon(Icons.person, color: Colors.grey.shade400, size: 20)
+                    : null,
+              );
+            }),
           ),
         ],
       ),
