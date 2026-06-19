@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../controller/auth_Cntroller/auth_Controller.dart';
+
+import '../../../controller/auth_Cntroller/auth_Controller.dart';
 import '../bottomNavigationBar/bottomNavgationBar.dart';
 
 class TrackOrderScreen extends StatelessWidget {
@@ -31,7 +32,9 @@ class TrackOrderScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: Obx(() {
-              final authCtrl = Get.isRegistered<AuthController>() ? Get.find<AuthController>() : Get.put(AuthController());
+              final authCtrl = Get.isRegistered<AuthController>()
+                  ? Get.find<AuthController>()
+                  : Get.put(AuthController());
               final profileImage = authCtrl.currentUser.value?.profileImage;
               return CircleAvatar(
                 radius: 16,

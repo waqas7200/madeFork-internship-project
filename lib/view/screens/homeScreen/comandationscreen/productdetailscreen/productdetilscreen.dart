@@ -789,6 +789,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     if (existingIndex >= 0) {
       // Pehle se item hone par sirf quantity barhayein
       cartItems[existingIndex].quantity += quantity;
+      cartItems.refresh();
       print("✅ Existing product quantity updated in cart.");
     } else {
       // Currency string clean karne ke liye helper regex parser
@@ -958,6 +959,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     Get.toNamed(AppRoutes.myOrder);
                                   },
                                 ),
+                                Obx(() {
+                                  int total = 0;
+                                  for (var item in cartItems) {
+                                    total += item.quantity;
+                                  }
+                                  if (total == 0) return const SizedBox.shrink();
+                                  return Positioned(
+                                    right: -2,
+                                    top: -2,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      constraints: const BoxConstraints(
+                                        minWidth: 20,
+                                        minHeight: 20,
+                                      ),
+                                      child: Text(
+                                        '$total',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  );
+                                }),
                               ],
                             ),
                             SizedBox(width: context.rW(2)),

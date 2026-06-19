@@ -34,37 +34,16 @@ class HomeScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<HomeScreen> {
   //List<Product> favoriteItems = [];
-  int _totalCartItems = 0;
 
   @override
   void initState() {
     super.initState();
-    _updateCartCount();
-  }
-
-  void _updateCartCount() {
-    int total = 0;
-    for (var item in cartItems) {
-      total += item.quantity;
-    }
-    setState(() {
-      _totalCartItems = total;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     APPResponsive().init(context);
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        toolbarHeight: context.rH(10),
-        //title:
-        actions: [],
-      ),
       backgroundColor: Colors.white,
       body: CustomBackground(
         child: SingleChildScrollView(
@@ -73,10 +52,8 @@ class _OnboardingScreenState extends State<HomeScreen> {
             children: [
               SizedBox(height: context.rH(5), width: context.rW(4)),
               CustomHomeAppBar(
-                totalCartItems: _totalCartItems,
                 onCartTap: () async {
                   await Get.toNamed(AppRoutes.myOrder);
-                  _updateCartCount();
                 },
               ),
               SizedBox(height: context.rH(3), width: context.rW(4)),

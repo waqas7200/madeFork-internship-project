@@ -6,7 +6,7 @@ import 'package:madeforke_app/utils/app_routes.dart';
 import '../../../component/custom_home_appbar.dart';
 import '../../../component/custom_background/custom_background.dart';
 
-List<CartItem> cartItems = [];
+RxList<CartItem> cartItems = <CartItem>[].obs;
 
 class MyOrderScreen extends StatefulWidget {
   @override
@@ -43,6 +43,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                 showBackButton: true,
                 titleLine1: 'My Order',
                 titleLine2: null,
+                showProfileImage: false,
               ),
               Expanded(
                 child: cartItems.isEmpty
@@ -176,6 +177,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                               } else {
                                                 cartItems.removeAt(index);
                                               }
+                                              cartItems.refresh();
                                             });
                                           },
                                           child: Padding(
@@ -201,7 +203,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            setState(() => item.quantity++);
+                                            setState(() {
+                                              item.quantity++;
+                                              cartItems.refresh();
+                                            });
                                           },
                                           child: const Padding(
                                             padding: EdgeInsets.all(6),

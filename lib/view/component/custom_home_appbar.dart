@@ -3,29 +3,30 @@ import 'package:get/get.dart';
 import '../utils/costsColors/constColors.dart';
 import '../utils/responsiveClass/responosiveC;ass.dart';
 import '../../controller/auth_Cntroller/auth_Controller.dart';
+import '../screens/homeScreen/myorderScreenCart/myOrderCart.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
-  final int totalCartItems;
   final VoidCallback? onCartTap;
   final String titleLine1;
   final String? titleLine2;
   final bool showBackButton;
+  final bool showProfileImage;
   final Widget? trailing;
 
   const CustomHomeAppBar({
     super.key,
-    this.totalCartItems = 0,
     this.onCartTap,
     this.titleLine1 = 'Explore the taste',
     this.titleLine2 = 'of Asian Food',
     this.showBackButton = false,
+    this.showProfileImage = true,
     this.trailing,
   });
 
   @override
   Widget build(BuildContext context) {
-    final authCtrl = Get.isRegistered<AuthController>() 
-        ? Get.find<AuthController>() 
+    final authCtrl = Get.isRegistered<AuthController>()
+        ? Get.find<AuthController>()
         : Get.put(AuthController());
 
     return Padding(
@@ -35,6 +36,23 @@ class CustomHomeAppBar extends StatelessWidget {
         children: [
           Row(
             children: [
+              if (showProfileImage) ...[
+                Obx(() {
+                  final profileImage = authCtrl.currentUser.value?.profileImage;
+                  return CircleAvatar(
+                    radius: context.rW(5).clamp(18, 26),
+                    backgroundColor: Colors.grey.shade200,
+                    backgroundImage:
+                        profileImage != null && profileImage.isNotEmpty
+                        ? NetworkImage(profileImage)
+                        : null,
+                    child: profileImage == null || profileImage.isEmpty
+                        ? Icon(Icons.person, color: Colors.grey.shade400)
+                        : null,
+                  );
+                }),
+                SizedBox(width: context.rW(3)),
+              ],
               if (showBackButton) ...[
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
@@ -95,8 +113,13 @@ class CustomHomeAppBar extends StatelessWidget {
                           size: context.rW(6).clamp(20, 30),
                         ),
                       ),
-                      if (totalCartItems > 0)
-                        Positioned(
+                      Obx(() {
+                        int total = 0;
+                        for (var item in cartItems) {
+                          total += item.quantity;
+                        }
+                        if (total == 0) return const SizedBox.shrink();
+                        return Positioned(
                           right: -6,
                           top: -6,
                           child: Container(
@@ -110,7 +133,7 @@ class CustomHomeAppBar extends StatelessWidget {
                               minHeight: 22,
                             ),
                             child: Text(
-                              '$totalCartItems',
+                              '$total',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 11,
@@ -119,24 +142,11 @@ class CustomHomeAppBar extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
+                        );
+                      }),
                     ],
                   ),
                 ),
-                SizedBox(width: context.rW(3)),
-                Obx(() {
-                  final profileImage = authCtrl.currentUser.value?.profileImage;
-                  return CircleAvatar(
-                    radius: context.rW(5).clamp(18, 26),
-                    backgroundColor: Colors.grey.shade200,
-                    backgroundImage: profileImage != null && profileImage.isNotEmpty
-                        ? NetworkImage(profileImage)
-                        : null,
-                    child: profileImage == null || profileImage.isEmpty
-                        ? Icon(Icons.person, color: Colors.grey.shade400)
-                        : null,
-                  );
-                }),
               ],
             ),
         ],

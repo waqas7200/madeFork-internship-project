@@ -461,8 +461,10 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:madeforke_app/view/utils/costsColors/constColors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:madeforke_app/utils/app_routes.dart';
 
 import '../../../model/paymentmodel/paymentmodel.dart';
 import '../../component/customCircleAvator/customCircleavators.dart';
@@ -471,6 +473,8 @@ import '../bottomNavigationBar/bottomNavgationBar.dart';
 import '../ordersuccessscreen/ordersuccessscreen.dart';
 import '../homeScreen/myorderScreenCart/myOrderCart.dart';
 import '../../component/custom_loading_widget.dart';
+import '../../component/custom_home_appbar.dart';
+import '../../component/custom_background/custom_background.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   final bool isFromCheckout;
@@ -657,54 +661,23 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Scaffold(
-          backgroundColor: const Color(0xFFF8F8F8),
-          appBar: AppBar(
-            backgroundColor: AppColor.backgroundYellow,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            toolbarHeight: context.rH(10),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        CustomBackground(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
               children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: _circleBtn(Icons.arrow_back),
-                ),
-                const Text(
-                  "Payment",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Row(
+              SafeArea(
+                child: Column(
                   children: [
-                    const Icon(Icons.shopping_cart_outlined),
-                    const SizedBox(width: 10),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        color: Colors.white,
-                        height: 35,
-                        width: 35,
-                        child: const Icon(Icons.person),
-                      ),
+                    const SizedBox(height: 10),
+                    const CustomHomeAppBar(
+                      showBackButton: true,
+                      titleLine1: 'Payment',
+                      titleLine2: null,
+                      showProfileImage: false,
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          body: Stack(
-            children: [
-              Positioned(
-                top: -490,
-                right: -95,
-                child: BackgroundCircle(
-                  size: 600,
-                  color: AppColor.backgroundYellow,
-                ),
-              ),
-              Positioned.fill(
-                child: ListView(
+                    Expanded(
+                      child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   children: [
                     const SizedBox(height: 20),
@@ -727,13 +700,16 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               ),
             ],
           ),
+        ),
+      ],
+    ),
           bottomNavigationBar: widget.isFromCheckout
               ? Container(
                   padding: EdgeInsets.fromLTRB(
                     context.rW(4),
                     context.rH(1.5),
                     context.rW(4),
-                    context.rH(3.5),
+                    context.rH(6.0), // Increased bottom padding to move button up
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -780,6 +756,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   ),
                 )
               : null,
+          ),
         ),
         if (_isSavingOrder)
           Container(

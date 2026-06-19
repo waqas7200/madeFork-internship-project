@@ -115,9 +115,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:madeforke_app/model/rerecomandatomproductModel/recomandatioprouductModel.dart';
+import '../../../model/addtocartmodel/addtocarmodel.dart';
 import '../../screens/bottomNavigationBar/bottomNavgationBar.dart';
 import 'package:madeforke_app/utils/app_routes.dart';
 import '../../utils/responsiveClass/responosiveC;ass.dart';
+import '../../screens/homeScreen/myorderScreenCart/myOrderCart.dart';
 
 class RecommendationCard extends StatelessWidget {
   final Product item;
@@ -240,11 +242,52 @@ class RecommendationCard extends StatelessWidget {
                 height: btnH,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // Add to cart functionality
+                    // Check if cart has items from different restaurant
+                    if (cartItems.isNotEmpty &&
+                        cartItems.first.restaurantId != item.restaurantId) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Alert: You can only order from one restaurant at a time!",
+                          ),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                      return;
+                    }
+
+                    final selectedSize = 'Standard';
+                    final existingIndex = cartItems.indexWhere(
+                      (cartItem) =>
+                          cartItem.id == item.id &&
+                          cartItem.size == selectedSize,
+                    );
+
+                    if (existingIndex >= 0) {
+                      cartItems[existingIndex].quantity += 1;
+                      cartItems.refresh();
+                    } else {
+                      String cleanPrice = item.price.replaceAll(
+                        RegExp(r'[^0-9.]'),
+                        '',
+                      );
+                      final newItem = CartItem(
+                        id: item.id,
+                        name: item.name,
+                        price: cleanPrice.isEmpty ? item.price : cleanPrice,
+                        image: item.image,
+                        size: selectedSize,
+                        restaurantId: item.restaurantId ?? '',
+                        quantity: 1,
+                      );
+                      cartItems.add(newItem);
+                    }
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('${item.name} کارٹ میں شامل ہوگی'),
+                        content: Text('${item.name} added to cart!'),
                         duration: const Duration(seconds: 2),
+                        backgroundColor: const Color(0xFF00897B),
                       ),
                     );
                   },

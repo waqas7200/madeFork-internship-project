@@ -21,8 +21,6 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen>
   @override
   void initState() {
     super.initState();
-    // Empty the cart since order is successfully placed!
-    cartItems.clear();
 
     _animController = AnimationController(
       vsync: this,
